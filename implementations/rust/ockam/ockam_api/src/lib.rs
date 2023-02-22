@@ -16,9 +16,9 @@ pub mod uppercase;
 pub mod vault;
 pub mod verifier;
 
+mod multiaddr;
 mod session;
-mod util;
-pub use util::*;
+pub use multiaddr::*;
 
 #[cfg(feature = "lmdb")]
 pub mod lmdb;
