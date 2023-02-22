@@ -321,6 +321,35 @@ pub async fn stop_node(mut ctx: Context) -> Result<()> {
     Ok(())
 }
 
+#[ockam_core::async_trait]
+pub trait BackgroundNode: Sized + Send + Sync + 'static {
+    type Args: Send + Sync + 'static;
+
+    async fn run_in_background(self, ctx: Context, opts: Self::Args) -> crate::Result<()>;
+
+    fn run(self, args: Self::Args) {
+        node_rpc(
+            move |context, args| async move { self.run_in_background(context, args).await },
+            args,
+        );
+    }
+}
+
+#[ockam_core::async_trait]
+pub trait ForegroundNode: Sized + Send + Sync + 'static {
+    type Args: Send + Sync + 'static;
+    type Output: Send + Sync + 'static;
+
+    async fn run_to_finish(self, ctx: Context, opts: Self::Args) -> crate::Result<Self::Output>;
+
+    fn run(self, args: Self::Args) -> crate::Result<Self::Output> {
+        embedded_node_that_is_not_stopped(
+            move |context, args| async move { self.run_to_finish(context, args).await },
+            args,
+        )
+    }
+}
+
 pub fn node_rpc<A, F, Fut>(f: F, a: A)
 where
     A: Send + Sync + 'static,

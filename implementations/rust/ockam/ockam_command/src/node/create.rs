@@ -12,11 +12,8 @@ use std::{
 };
 use tracing::error;
 
-use crate::secure_channel::listener::create as secure_channel_listener;
-use crate::service::config::Config;
 use crate::service::start;
-use crate::util::node_rpc;
-use crate::util::{bind_to_port_check, embedded_node_that_is_not_stopped, exitcode};
+use crate::util::{bind_to_port_check, exitcode};
 use crate::{
     help, node::show::print_query_status, node::HELP_DETAIL, project, util::find_available_port,
     CommandGlobalOpts,
@@ -27,6 +24,8 @@ use crate::{
     util::RpcBuilder,
 };
 use crate::{project::ProjectInfo, util::api};
+use crate::{secure_channel::listener::create as secure_channel_listener, util::BackgroundNode};
+use crate::{service::config::Config, util::ForegroundNode};
 use ockam::{Address, AsyncTryClone, TCP};
 use ockam::{Context, TcpTransport};
 use ockam_api::nodes::models::transport::CreateTransportJson;
@@ -137,8 +136,7 @@ impl CreateCommand {
                 std::process::exit(e.code());
             }
         } else {
-            // Create a new node running in the background (i.e. another, new OS process)
-            node_rpc(run_impl, (options, self))
+            BackgroundNode::run(self, options);
         }
     }
 
@@ -157,6 +155,177 @@ impl CreateCommand {
     }
 }
 
+#[ockam_core::async_trait]
+impl BackgroundNode for CreateCommand {
+    type Args = CommandGlobalOpts;
+
+    async fn run_in_background(self, ctx: Context, opts: Self::Args) -> crate::Result<()> {
+        let node_name = &parse_node_name(&self.node_name)?;
+
+        if self.child_process {
+            return Err(crate::Error::new(
+                exitcode::CONFIG,
+                anyhow!("Cannot create a background node from background node"),
+            ));
+        }
+
+        // Spawn node in another, new process
+        let self = self.overwrite_addr()?;
+        let addr = SocketAddr::from_str(&self.tcp_listener_address)?;
+
+        spawn_background_node(&ctx, &opts, &self, addr).await?;
+
+        // Print node status
+        let tcp = TcpTransport::create(&ctx).await?;
+        let mut rpc = RpcBuilder::new(&ctx, &opts, node_name).tcp(&tcp)?.build();
+        let mut is_default = false;
+        if let Ok(state) = opts.state.nodes.default() {
+            is_default = &state.config.name == node_name;
+        }
+        print_query_status(&mut rpc, node_name, true, is_default).await?;
+
+        // Do we need to eagerly fetch a project membership credential?
+        let get_credential = self.project.is_some() && self.token.is_some();
+        if get_credential {
+            rpc.request(api::credentials::get_credential(false)).await?;
+            if rpc.parse_and_print_response::<Credential>().is_err() {
+                eprintln!("failed to fetch membership credential");
+                delete_node(&opts, node_name, true)?;
+            }
+        }
+
+        Ok(())
+    }
+}
+
+#[ockam_core::async_trait]
+impl ForegroundNode for CreateCommand {
+    type Args = (CommandGlobalOpts, SocketAddr);
+    type Output = ();
+
+    async fn run_to_finish(
+        self,
+        mut ctx: Context,
+        (opts, addr): Self::Args,
+    ) -> crate::Result<Self::Output> {
+        let cfg = &opts.config;
+        let node_name = parse_node_name(&self.node_name)?;
+
+        // This node was initially created as a foreground node
+        // and there is no existing state for it yet.
+        if !self.child_process && opts.state.nodes.get(&node_name).is_err() {
+            init_node_state(
+                &ctx,
+                &opts,
+                &node_name,
+                self.vault.as_ref(),
+                self.identity.as_ref(),
+            )
+            .await?;
+        }
+
+        let project_id = match &self.project {
+            Some(path) => {
+                let s = tokio::fs::read_to_string(path).await?;
+                let p: ProjectInfo = serde_json::from_str(&s)?;
+                let project_id = p.id.to_string();
+                project::config::set_project(cfg, &(&p).into()).await?;
+                add_project_authority_from_project_info(p, &node_name, cfg).await?;
+                Some(project_id)
+            }
+            None => None,
+        };
+
+        // Do we need to eagerly fetch a project membership credential?
+        let get_credential = !self.child_process && self.project.is_some() && self.token.is_some();
+
+        let tcp = TcpTransport::create(&ctx).await?;
+        let bind = self.tcp_listener_address;
+        tcp.listen(&bind).await?;
+
+        let node_state = opts.state.nodes.get(&node_name)?;
+        let setup_config = node_state.setup()?;
+        node_state.set_setup(
+            &setup_config
+                .set_verbose(opts.global_args.verbose)
+                .add_transport(CreateTransportJson::new(
+                    TransportType::Tcp,
+                    TransportMode::Listen,
+                    &bind,
+                )?),
+        )?;
+
+        let pre_trusted_identities = match (
+            self.trusted_identities,
+            self.trusted_identities_file,
+            self.reload_from_trusted_identities_file,
+        ) {
+            (Some(val), _, _) => Some(PreTrustedIdentities::new_from_string(&val)?),
+            (_, Some(val), _) => Some(PreTrustedIdentities::new_from_disk(val, false)?),
+            (_, _, Some(val)) => Some(PreTrustedIdentities::new_from_disk(val, true)?),
+            _ => None,
+        };
+        let projects = cfg.inner().lookup().projects().collect();
+        let node_man = NodeManager::create(
+            &ctx,
+            NodeManagerGeneralOptions::new(
+                self.node_name.clone(),
+                self.launch_config.is_some(),
+                pre_trusted_identities,
+            ),
+            NodeManagerProjectsOptions::new(
+                Some(&cfg.authorities(&node_name)?.snapshot()),
+                project_id,
+                projects,
+                self.token,
+            ),
+            NodeManagerTransportOptions::new(
+                (TransportType::Tcp, TransportMode::Listen, bind),
+                tcp.async_try_clone().await?,
+            ),
+        )
+        .await?;
+        let node_manager_worker = NodeManagerWorker::new(node_man);
+
+        ctx.start_worker(
+            NODEMANAGER_ADDR,
+            node_manager_worker,
+            AllowAll, // FIXME: @ac
+            AllowAll, // FIXME: @ac
+        )
+        .await?;
+
+        if let Some(path) = &self.launch_config {
+            let node_opts = super::NodeOpts {
+                api_node: node_name.clone(),
+            };
+            start_services(&ctx, &tcp, path, addr, node_opts, &opts).await?
+        }
+
+        if get_credential {
+            let req = api::credentials::get_credential(false).to_vec()?;
+            let res: Vec<u8> = ctx.send_and_receive(NODEMANAGER_ADDR, req).await?;
+            let mut d = Decoder::new(&res);
+            match d.decode::<Response>() {
+                Ok(hdr) if hdr.status() == Some(Status::Ok) && hdr.has_body() => {
+                    let c: Credential = d.decode()?;
+                    println!("{c}")
+                }
+                Ok(_) | Err(_) => {
+                    eprintln!("failed to fetch membership credential");
+                    delete_node(&opts, &node_name, true)?;
+                }
+            }
+        }
+
+        if self.exit_on_eof {
+            stop_node_on_eof(&mut ctx, &opts, &node_name).await?;
+        }
+
+        Ok(())
+    }
+}
+
 fn parse_launch_config(config_or_path: &str) -> anyhow::Result<Config> {
     match serde_json::from_str::<Config>(config_or_path) {
         Ok(c) => Ok(c),
@@ -167,173 +336,11 @@ fn parse_launch_config(config_or_path: &str) -> anyhow::Result<Config> {
     }
 }
 
-async fn run_impl(
-    ctx: Context,
-    (opts, cmd): (CommandGlobalOpts, CreateCommand),
-) -> crate::Result<()> {
-    let node_name = &parse_node_name(&cmd.node_name)?;
-
-    if cmd.child_process {
-        return Err(crate::Error::new(
-            exitcode::CONFIG,
-            anyhow!("Cannot create a background node from background node"),
-        ));
-    }
-
-    // Spawn node in another, new process
-    let cmd = cmd.overwrite_addr()?;
-    let addr = SocketAddr::from_str(&cmd.tcp_listener_address)?;
-
-    spawn_background_node(&ctx, &opts, &cmd, addr).await?;
-
-    // Print node status
-    let tcp = TcpTransport::create(&ctx).await?;
-    let mut rpc = RpcBuilder::new(&ctx, &opts, node_name).tcp(&tcp)?.build();
-    let mut is_default = false;
-    if let Ok(state) = opts.state.nodes.default() {
-        is_default = &state.config.name == node_name;
-    }
-    print_query_status(&mut rpc, node_name, true, is_default).await?;
-
-    // Do we need to eagerly fetch a project membership credential?
-    let get_credential = cmd.project.is_some() && cmd.token.is_some();
-    if get_credential {
-        rpc.request(api::credentials::get_credential(false)).await?;
-        if rpc.parse_and_print_response::<Credential>().is_err() {
-            eprintln!("failed to fetch membership credential");
-            delete_node(&opts, node_name, true)?;
-        }
-    }
-
-    Ok(())
-}
-
 fn create_foreground_node(opts: &CommandGlobalOpts, cmd: &CreateCommand) -> crate::Result<()> {
     let cmd = cmd.overwrite_addr()?;
     let addr = SocketAddr::from_str(&cmd.tcp_listener_address)?;
-    embedded_node_that_is_not_stopped(run_foreground_node, (opts.clone(), cmd, addr))?;
-    Ok(())
-}
 
-async fn run_foreground_node(
-    mut ctx: Context,
-    (opts, cmd, addr): (CommandGlobalOpts, CreateCommand, SocketAddr),
-) -> crate::Result<()> {
-    let cfg = &opts.config;
-    let node_name = parse_node_name(&cmd.node_name)?;
-
-    // This node was initially created as a foreground node
-    // and there is no existing state for it yet.
-    if !cmd.child_process && opts.state.nodes.get(&node_name).is_err() {
-        init_node_state(
-            &ctx,
-            &opts,
-            &node_name,
-            cmd.vault.as_ref(),
-            cmd.identity.as_ref(),
-        )
-        .await?;
-    }
-
-    let project_id = match &cmd.project {
-        Some(path) => {
-            let s = tokio::fs::read_to_string(path).await?;
-            let p: ProjectInfo = serde_json::from_str(&s)?;
-            let project_id = p.id.to_string();
-            project::config::set_project(cfg, &(&p).into()).await?;
-            add_project_authority_from_project_info(p, &node_name, cfg).await?;
-            Some(project_id)
-        }
-        None => None,
-    };
-
-    // Do we need to eagerly fetch a project membership credential?
-    let get_credential = !cmd.child_process && cmd.project.is_some() && cmd.token.is_some();
-
-    let tcp = TcpTransport::create(&ctx).await?;
-    let bind = cmd.tcp_listener_address;
-    tcp.listen(&bind).await?;
-
-    let node_state = opts.state.nodes.get(&node_name)?;
-    let setup_config = node_state.setup()?;
-    node_state.set_setup(
-        &setup_config
-            .set_verbose(opts.global_args.verbose)
-            .add_transport(CreateTransportJson::new(
-                TransportType::Tcp,
-                TransportMode::Listen,
-                &bind,
-            )?),
-    )?;
-
-    let pre_trusted_identities = match (
-        cmd.trusted_identities,
-        cmd.trusted_identities_file,
-        cmd.reload_from_trusted_identities_file,
-    ) {
-        (Some(val), _, _) => Some(PreTrustedIdentities::new_from_string(&val)?),
-        (_, Some(val), _) => Some(PreTrustedIdentities::new_from_disk(val, false)?),
-        (_, _, Some(val)) => Some(PreTrustedIdentities::new_from_disk(val, true)?),
-        _ => None,
-    };
-    let projects = cfg.inner().lookup().projects().collect();
-    let node_man = NodeManager::create(
-        &ctx,
-        NodeManagerGeneralOptions::new(
-            cmd.node_name.clone(),
-            cmd.launch_config.is_some(),
-            pre_trusted_identities,
-        ),
-        NodeManagerProjectsOptions::new(
-            Some(&cfg.authorities(&node_name)?.snapshot()),
-            project_id,
-            projects,
-            cmd.token,
-        ),
-        NodeManagerTransportOptions::new(
-            (TransportType::Tcp, TransportMode::Listen, bind),
-            tcp.async_try_clone().await?,
-        ),
-    )
-    .await?;
-    let node_manager_worker = NodeManagerWorker::new(node_man);
-
-    ctx.start_worker(
-        NODEMANAGER_ADDR,
-        node_manager_worker,
-        AllowAll, // FIXME: @ac
-        AllowAll, // FIXME: @ac
-    )
-    .await?;
-
-    if let Some(path) = &cmd.launch_config {
-        let node_opts = super::NodeOpts {
-            api_node: node_name.clone(),
-        };
-        start_services(&ctx, &tcp, path, addr, node_opts, &opts).await?
-    }
-
-    if get_credential {
-        let req = api::credentials::get_credential(false).to_vec()?;
-        let res: Vec<u8> = ctx.send_and_receive(NODEMANAGER_ADDR, req).await?;
-        let mut d = Decoder::new(&res);
-        match d.decode::<Response>() {
-            Ok(hdr) if hdr.status() == Some(Status::Ok) && hdr.has_body() => {
-                let c: Credential = d.decode()?;
-                println!("{c}")
-            }
-            Ok(_) | Err(_) => {
-                eprintln!("failed to fetch membership credential");
-                delete_node(&opts, &node_name, true)?;
-            }
-        }
-    }
-
-    if cmd.exit_on_eof {
-        stop_node_on_eof(&mut ctx, &opts, &node_name).await?;
-    }
-
-    Ok(())
+    ForegroundNode::run(cmd, (opts.clone(), addr))
 }
 
 // Read STDIN until EOF is encountered and then stop the node
