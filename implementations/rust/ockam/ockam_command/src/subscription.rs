@@ -2,7 +2,6 @@ use core::fmt::Write;
 
 use clap::builder::NonEmptyStringValueParser;
 use clap::{Args, Subcommand};
-
 use ockam::Context;
 use ockam_api::cloud::subscription::Subscription;
 use ockam_api::cloud::CloudRequestWrapper;
@@ -87,12 +86,10 @@ async fn run_impl(
 
 pub mod utils {
     use anyhow::anyhow;
-
     use ockam_multiaddr::MultiAddr;
 
-    use crate::util::RpcBuilder;
-
     use super::*;
+    use crate::util::RpcBuilder;
 
     pub async fn subscription_id_from_cmd_args(
         ctx: &Context,

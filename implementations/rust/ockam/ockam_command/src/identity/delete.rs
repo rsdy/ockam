@@ -1,9 +1,10 @@
-use crate::util::node_rpc;
-use crate::CommandGlobalOpts;
 use anyhow::anyhow;
 use clap::Args;
 use ockam::Context;
 use ockam_api::cli_state::CliStateError;
+
+use crate::util::node_rpc;
+use crate::CommandGlobalOpts;
 
 /// Delete an identity
 #[derive(Clone, Debug, Args)]

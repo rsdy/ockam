@@ -1,7 +1,8 @@
-use crate::CommandGlobalOpts;
 use anyhow::anyhow;
 use clap::Args;
 use ockam_api::cli_state::CliStateError;
+
+use crate::CommandGlobalOpts;
 
 /// Set the default identity
 #[derive(Clone, Debug, Args)]

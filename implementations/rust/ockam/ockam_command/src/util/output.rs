@@ -1,18 +1,20 @@
+use core::fmt::Write;
+
 use anyhow::Context;
 use cli_table::{Cell, Style, Table};
-use core::fmt::Write;
+use colorful::Colorful;
 use ockam::identity::credential::Credential;
 use ockam_api::cloud::project::{Enroller, Project};
-
-use crate::project::ProjectInfo;
-use crate::util::comma_separated;
-use colorful::Colorful;
 use ockam_api::cloud::space::Space;
 use ockam_api::nodes::models::secure_channel::{
-    CreateSecureChannelResponse, ShowSecureChannelResponse,
+    CreateSecureChannelResponse,
+    ShowSecureChannelResponse,
 };
 use ockam_api::route_to_multiaddr;
 use ockam_core::route;
+
+use crate::project::ProjectInfo;
+use crate::util::comma_separated;
 
 /// Trait to control how a given type will be printed as a CLI output.
 ///

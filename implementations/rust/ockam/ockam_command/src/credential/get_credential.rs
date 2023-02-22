@@ -1,5 +1,4 @@
 use clap::Args;
-
 use ockam::Context;
 
 use crate::node::NodeOpts;

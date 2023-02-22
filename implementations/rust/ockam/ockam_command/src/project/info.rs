@@ -1,18 +1,16 @@
 use anyhow::Context as _;
 use clap::Args;
-
 use ockam::identity::IdentityIdentifier;
 use ockam::Context;
-use ockam_api::cloud::project::OktaConfig;
-use ockam_api::cloud::project::Project;
+use ockam_api::cloud::project::{OktaConfig, Project};
 use ockam_core::CowStr;
+use serde::{Deserialize, Serialize};
 
 use crate::node::util::{delete_embedded_node, start_embedded_node};
 use crate::project::util::config;
 use crate::util::api::{self, CloudOpts};
 use crate::util::{node_rpc, RpcBuilder};
 use crate::CommandGlobalOpts;
-use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Args)]
 pub struct InfoCommand {

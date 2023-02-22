@@ -1,8 +1,9 @@
+use std::path::Path;
+
 use anyhow::{anyhow, Context, Result};
 use ockam::identity::IdentityIdentifier;
 use ockam_api::DefaultAddress;
 use serde::{Deserialize, Serialize};
-use std::path::Path;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VaultConfig {

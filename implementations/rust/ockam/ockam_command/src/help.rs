@@ -1,14 +1,11 @@
-use crate::terminal::{Terminal, TerminalBackground};
 use colorful::Colorful;
 use once_cell::sync::Lazy;
-use syntect::highlighting::Theme;
-use syntect::{
-    easy::HighlightLines,
-    highlighting::{Style, ThemeSet},
-    parsing::Regex,
-    parsing::SyntaxSet,
-    util::{as_24_bit_terminal_escaped, LinesWithEndings},
-};
+use syntect::easy::HighlightLines;
+use syntect::highlighting::{Style, Theme, ThemeSet};
+use syntect::parsing::{Regex, SyntaxSet};
+use syntect::util::{as_24_bit_terminal_escaped, LinesWithEndings};
+
+use crate::terminal::{Terminal, TerminalBackground};
 
 const TEMPLATE_BOTTOM: &str = "
 Learn More:

@@ -1,6 +1,5 @@
 use anyhow::Context as _;
 use clap::Args;
-
 use ockam::Context;
 use ockam_api::cloud::project::Project;
 

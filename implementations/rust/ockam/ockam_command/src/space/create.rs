@@ -1,4 +1,5 @@
 use clap::Args;
+use colorful::Colorful;
 use ockam::Context;
 use ockam_api::cloud::space::Space;
 use rand::prelude::random;
@@ -8,7 +9,6 @@ use crate::space::util::config;
 use crate::util::api::{self, CloudOpts};
 use crate::util::{node_rpc, Rpc};
 use crate::CommandGlobalOpts;
-use colorful::Colorful;
 
 #[derive(Clone, Debug, Args)]
 pub struct CreateCommand {

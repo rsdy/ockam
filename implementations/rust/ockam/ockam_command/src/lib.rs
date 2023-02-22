@@ -32,6 +32,7 @@ mod version;
 mod worker;
 
 use authenticated::AuthenticatedCommand;
+use clap::{ArgAction, Args, Parser, Subcommand, ValueEnum};
 use completion::CompletionCommand;
 use configuration::ConfigurationCommand;
 use credential::CredentialCommand;
@@ -43,27 +44,28 @@ use lease::LeaseCommand;
 use manpages::ManpagesCommand;
 use message::MessageCommand;
 use node::NodeCommand;
+use ockam_api::cli_state::CliState;
 use policy::PolicyCommand;
 use project::ProjectCommand;
 use reset::ResetCommand;
-use secure_channel::{listener::SecureChannelListenerCommand, SecureChannelCommand};
+use secure_channel::listener::SecureChannelListenerCommand;
+use secure_channel::SecureChannelCommand;
 use service::ServiceCommand;
 use space::SpaceCommand;
 use status::StatusCommand;
-use tcp::{
-    connection::TcpConnectionCommand, inlet::TcpInletCommand, listener::TcpListenerCommand,
-    outlet::TcpOutletCommand,
-};
-use util::{exitcode, exitcode::ExitCode, setup_logging, OckamConfig};
+use tcp::connection::TcpConnectionCommand;
+use tcp::inlet::TcpInletCommand;
+use tcp::listener::TcpListenerCommand;
+use tcp::outlet::TcpOutletCommand;
+use upgrade::check_if_an_upgrade_is_available;
+use util::exitcode::ExitCode;
+use util::{exitcode, setup_logging, OckamConfig};
 use vault::VaultCommand;
 use version::Version;
 use worker::WorkerCommand;
 
 use crate::admin::AdminCommand;
 use crate::subscription::SubscriptionCommand;
-use clap::{ArgAction, Args, Parser, Subcommand, ValueEnum};
-use ockam_api::cli_state::CliState;
-use upgrade::check_if_an_upgrade_is_available;
 
 const ABOUT: &str = include_str!("constants/lib/about.txt");
 const HELP_DETAIL: &str = include_str!("constants/lib/help_detail.txt");

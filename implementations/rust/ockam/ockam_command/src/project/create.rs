@@ -1,9 +1,8 @@
 use anyhow::Context as _;
 use clap::Args;
-use rand::prelude::random;
-
 use ockam::Context;
 use ockam_api::cloud::project::Project;
+use rand::prelude::random;
 
 use crate::node::util::{delete_embedded_node, start_embedded_node};
 use crate::project::util::{check_project_readiness, project_enroll_admin};

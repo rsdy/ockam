@@ -1,6 +1,5 @@
 //! API shim to make it nicer to interact with the ockam messaging API
 
-use regex::Regex;
 use std::path::PathBuf;
 use std::str::FromStr;
 
@@ -8,21 +7,24 @@ use anyhow::{anyhow, Context};
 use clap::Args;
 // TODO: maybe we can remove this cross-dependency inside the CLI?
 use minicbor::Decoder;
-use ockam_api::nodes::models::services::{
-    StartAuthenticatedServiceRequest, StartAuthenticatorRequest, StartCredentialsService,
-    StartIdentityServiceRequest, StartVaultServiceRequest, StartVerifierService,
-};
-use tracing::trace;
-
 use ockam::identity::IdentityIdentifier;
 use ockam::Result;
 use ockam_api::cloud::{BareCloudRequestWrapper, CloudRequestWrapper};
+use ockam_api::nodes::models::services::{
+    StartAuthenticatedServiceRequest,
+    StartAuthenticatorRequest,
+    StartCredentialsService,
+    StartIdentityServiceRequest,
+    StartVaultServiceRequest,
+    StartVerifierService,
+};
 use ockam_api::nodes::*;
 use ockam_api::DefaultAddress;
-use ockam_core::api::RequestBuilder;
-use ockam_core::api::{Request, Response};
+use ockam_core::api::{Request, RequestBuilder, Response};
 use ockam_core::{Address, CowStr};
 use ockam_multiaddr::MultiAddr;
+use regex::Regex;
+use tracing::trace;
 
 use crate::util::DEFAULT_CONTROLLER_ADDRESS;
 
@@ -192,9 +194,8 @@ fn node_service(service_name: &str) -> String {
 pub(crate) mod enroll {
     use ockam_api::cloud::enroll::auth0::{Auth0Token, AuthenticateAuth0Token};
 
-    use crate::enroll::*;
-
     use super::*;
+    use crate::enroll::*;
 
     pub(crate) fn auth0<'a>(
         cmd: EnrollCommand,
@@ -213,9 +214,8 @@ pub(crate) mod enroll {
 pub(crate) mod space {
     use ockam_api::cloud::space::*;
 
-    use crate::space::*;
-
     use super::*;
+    use crate::space::*;
 
     pub(crate) fn create(cmd: &CreateCommand) -> RequestBuilder<CloudRequestWrapper<CreateSpace>> {
         let b = CreateSpace::new(&cmd.name, &cmd.admins);
@@ -249,9 +249,8 @@ pub(crate) mod space {
 pub(crate) mod project {
     use ockam_api::cloud::project::*;
 
-    use crate::project::*;
-
     use super::*;
+    use crate::project::*;
 
     pub(crate) fn create<'a>(
         project_name: &'a str,

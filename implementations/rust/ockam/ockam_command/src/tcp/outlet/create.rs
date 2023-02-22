@@ -1,16 +1,16 @@
-use crate::util::{extract_address_value, node_rpc, Rpc};
-use crate::{help, CommandGlobalOpts};
+use std::net::SocketAddr;
+
 use anyhow::ensure;
 use clap::Args;
 use ockam::Context;
-use ockam_api::{
-    error::ApiError,
-    nodes::models::portal::{CreateOutlet, OutletStatus},
-    route_to_multiaddr,
-};
+use ockam_api::error::ApiError;
+use ockam_api::nodes::models::portal::{CreateOutlet, OutletStatus};
+use ockam_api::route_to_multiaddr;
 use ockam_core::api::{Request, RequestBuilder};
 use ockam_core::route;
-use std::net::SocketAddr;
+
+use crate::util::{extract_address_value, node_rpc, Rpc};
+use crate::{help, CommandGlobalOpts};
 
 const HELP_DETAIL: &str = include_str!("../../constants/tcp/outlet/help_detail.txt");
 

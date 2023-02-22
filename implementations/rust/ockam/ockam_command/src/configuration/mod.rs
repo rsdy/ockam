@@ -3,14 +3,13 @@ mod get_default_node;
 mod list;
 mod set_default_node;
 
+use clap::{Args, Subcommand};
 use get::GetCommand;
 use get_default_node::GetDefaultNodeCommand;
 use list::ListCommand;
 use set_default_node::SetDefaultNodeCommand;
 
-use crate::help;
-use crate::CommandGlobalOpts;
-use clap::{Args, Subcommand};
+use crate::{help, CommandGlobalOpts};
 
 const HELP_DETAIL: &str = "";
 

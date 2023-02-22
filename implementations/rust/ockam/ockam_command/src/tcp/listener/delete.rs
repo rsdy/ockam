@@ -1,13 +1,12 @@
 use anyhow::anyhow;
 use clap::Args;
-
-use crate::util::extract_address_value;
 use ockam::Context;
 use ockam_api::nodes::models;
 use ockam_core::api::Request;
 
-use crate::util::{node_rpc, Rpc};
-use crate::{exitcode, node::NodeOpts, CommandGlobalOpts};
+use crate::node::NodeOpts;
+use crate::util::{extract_address_value, node_rpc, Rpc};
+use crate::{exitcode, CommandGlobalOpts};
 
 #[derive(Clone, Debug, Args)]
 pub struct DeleteCommand {

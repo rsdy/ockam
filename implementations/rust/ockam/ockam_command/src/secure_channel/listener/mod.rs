@@ -1,12 +1,12 @@
 pub mod create;
 pub mod list;
 
+use clap::{Args, Subcommand};
 pub(crate) use create::CreateCommand;
 pub(crate) use list::ListCommand;
 
 use crate::secure_channel::HELP_DETAIL;
 use crate::{help, CommandGlobalOpts};
-use clap::{Args, Subcommand};
 
 /// Manage Secure Channel Listeners
 #[derive(Clone, Debug, Args)]

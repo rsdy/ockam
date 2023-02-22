@@ -1,27 +1,24 @@
 use core::time::Duration;
-use std::{
-    env,
-    net::{SocketAddr, TcpListener},
-    path::Path,
-    str::FromStr,
-};
+use std::env;
+use std::net::{SocketAddr, TcpListener};
+use std::path::Path;
+use std::str::FromStr;
 
 use anyhow::{anyhow, Context as _, Result};
-use minicbor::{data::Type, Decode, Decoder, Encode};
-use tracing::{debug, error, trace};
-use tracing_subscriber::prelude::*;
-use tracing_subscriber::{filter::LevelFilter, fmt, EnvFilter};
-
 pub use config::*;
+use minicbor::data::Type;
+use minicbor::{Decode, Decoder, Encode};
 use ockam::{Address, Context, NodeBuilder, Route, TcpTransport, TCP};
 use ockam_api::cli_state::{CliState, NodeState};
 use ockam_api::nodes::NODEMANAGER_ADDR;
 use ockam_core::api::{RequestBuilder, Response, Status};
 use ockam_core::DenyAll;
-use ockam_multiaddr::{
-    proto::{self, Node},
-    MultiAddr, Protocol,
-};
+use ockam_multiaddr::proto::{self, Node};
+use ockam_multiaddr::{MultiAddr, Protocol};
+use tracing::{debug, error, trace};
+use tracing_subscriber::filter::LevelFilter;
+use tracing_subscriber::prelude::*;
+use tracing_subscriber::{fmt, EnvFilter};
 
 use crate::node::util::start_embedded_node;
 use crate::util::output::Output;
@@ -592,14 +589,16 @@ pub fn is_tty<S: io_lifetimes::AsFilelike>(s: S) -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
+    use std::sync::Arc;
+
     use ockam_api::cli_state;
     use ockam_api::cli_state::{IdentityConfig, NodeConfig, VaultConfig};
     use ockam_api::nodes::models::transport::{CreateTransportJson, TransportMode, TransportType};
     use ockam_identity::Identity;
     use ockam_vault::storage::FileStorage;
     use ockam_vault::Vault;
-    use std::sync::Arc;
+
+    use super::*;
 
     #[test]
     fn test_extract_address_value() {

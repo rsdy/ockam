@@ -1,14 +1,11 @@
-use crate::secure_channel::HELP_DETAIL;
-use crate::{
-    help,
-    util::{api, extract_address_value, node_rpc, Rpc},
-    CommandGlobalOpts, Result,
-};
 use clap::Args;
-
 use ockam::Context;
 use ockam_api::nodes::models::secure_channel::ShowSecureChannelResponse;
 use ockam_core::Address;
+
+use crate::secure_channel::HELP_DETAIL;
+use crate::util::{api, extract_address_value, node_rpc, Rpc};
+use crate::{help, CommandGlobalOpts, Result};
 
 /// Show Secure Channels
 #[derive(Clone, Debug, Args)]

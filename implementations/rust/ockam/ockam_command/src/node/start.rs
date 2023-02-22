@@ -1,12 +1,11 @@
 use clap::Args;
-
 use ockam::TcpTransport;
 
-use crate::node::default_node_name;
 use crate::node::show::print_query_status;
 use crate::node::util::spawn_node;
+use crate::node::{default_node_name, HELP_DETAIL};
 use crate::util::{node_rpc, RpcBuilder};
-use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
+use crate::{help, CommandGlobalOpts};
 
 /// Start a node
 #[derive(Clone, Debug, Args)]

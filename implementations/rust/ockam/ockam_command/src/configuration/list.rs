@@ -1,6 +1,7 @@
-use crate::CommandGlobalOpts;
 use clap::Args;
 use ockam_api::config::lookup::LookupValue;
+
+use crate::CommandGlobalOpts;
 
 #[derive(Clone, Debug, Args)]
 pub struct ListCommand {}

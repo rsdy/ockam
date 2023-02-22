@@ -1,26 +1,25 @@
-use clap::Args;
 use std::str::FromStr;
 
 use anyhow::{anyhow, Context as _};
+use clap::Args;
 use ockam::identity::credential::OneTimeCode;
 use ockam::Context;
+use ockam_api::authenticator::direct::Client;
 use ockam_api::cloud::enroll::auth0::AuthenticateAuth0Token;
 use ockam_api::cloud::project::OktaAuth0;
+use ockam_api::config::lookup::ProjectAuthority;
+use ockam_api::DefaultAddress;
 use ockam_core::api::{Request, Status};
 use ockam_multiaddr::MultiAddr;
 use tracing::debug;
 
 use crate::enroll::{Auth0Provider, Auth0Service};
 use crate::node::util::{delete_embedded_node, start_embedded_node};
+use crate::project::util::create_secure_channel_to_authority;
 use crate::project::ProjectInfo;
 use crate::util::api::{CloudOpts, ProjectOpts};
 use crate::util::{node_rpc, RpcBuilder};
 use crate::CommandGlobalOpts;
-
-use crate::project::util::create_secure_channel_to_authority;
-use ockam_api::authenticator::direct::Client;
-use ockam_api::config::lookup::ProjectAuthority;
-use ockam_api::DefaultAddress;
 
 /// Authenticate with a project node
 #[derive(Clone, Debug, Args)]

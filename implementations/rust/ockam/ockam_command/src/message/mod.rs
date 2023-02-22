@@ -1,6 +1,7 @@
-use crate::{help, CommandGlobalOpts};
 use clap::{Args, Subcommand};
 pub use send::SendCommand;
+
+use crate::{help, CommandGlobalOpts};
 
 mod send;
 

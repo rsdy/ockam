@@ -11,23 +11,20 @@ mod list_enrollers;
 mod show;
 pub mod util;
 
-pub use info::ProjectInfo;
-pub use util::config;
-
-use clap::{Args, Subcommand};
-
-pub use crate::credential::get_credential::GetCredentialCommand;
 pub use add_enroller::AddEnrollerCommand;
 pub use addon::AddonCommand;
+use clap::{Args, Subcommand};
 pub use create::CreateCommand;
 pub use delete::DeleteCommand;
 pub use delete_enroller::DeleteEnrollerCommand;
 pub use enroll::EnrollCommand;
-pub use info::InfoCommand;
+pub use info::{InfoCommand, ProjectInfo};
 pub use list::ListCommand;
 pub use list_enrollers::ListEnrollersCommand;
 pub use show::ShowCommand;
+pub use util::config;
 
+pub use crate::credential::get_credential::GetCredentialCommand;
 use crate::project::auth::AuthCommand;
 use crate::CommandGlobalOpts;
 

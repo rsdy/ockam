@@ -1,19 +1,16 @@
-use crate::secure_channel::HELP_DETAIL;
-use crate::{
-    help,
-    util::{api, exitcode, extract_address_value, node_rpc, Rpc},
-    CommandGlobalOpts, OutputFormat, Result,
-};
 use std::str::FromStr;
 
+use clap::Parser;
 use colorful::Colorful;
+use ockam::{route, Context};
+use ockam_api::nodes::models::secure_channel::DeleteSecureChannelResponse;
+use ockam_api::route_to_multiaddr;
+use ockam_core::{Address, AddressParseError};
 use serde_json::json;
 
-use crate::util::is_tty;
-use clap::Parser;
-use ockam::{route, Context};
-use ockam_api::{nodes::models::secure_channel::DeleteSecureChannelResponse, route_to_multiaddr};
-use ockam_core::{Address, AddressParseError};
+use crate::secure_channel::HELP_DETAIL;
+use crate::util::{api, exitcode, extract_address_value, is_tty, node_rpc, Rpc};
+use crate::{help, CommandGlobalOpts, OutputFormat, Result};
 
 /// Delete Secure Channels
 #[derive(Clone, Debug, Parser)]

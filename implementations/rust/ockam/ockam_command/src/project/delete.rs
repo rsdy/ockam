@@ -1,6 +1,5 @@
 use anyhow::Context as _;
 use clap::Args;
-
 use ockam::Context;
 
 use crate::node::util::{delete_embedded_node, start_embedded_node};

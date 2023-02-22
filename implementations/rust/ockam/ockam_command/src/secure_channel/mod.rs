@@ -5,13 +5,13 @@ mod delete;
 mod list;
 mod show;
 
+use clap::{Args, Subcommand};
 pub use create::CreateCommand;
 pub use delete::DeleteCommand;
 pub use list::ListCommand;
 pub use show::ShowCommand;
 
 use crate::{help, CommandGlobalOpts};
-use clap::{Args, Subcommand};
 
 const HELP_DETAIL: &str = include_str!("../constants/secure_channel/help_detail.txt");
 

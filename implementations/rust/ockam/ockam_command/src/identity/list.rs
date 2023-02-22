@@ -1,9 +1,10 @@
-use crate::util::exitcode;
-use crate::util::output::Output;
-use crate::CommandGlobalOpts;
 use anyhow::anyhow;
 use clap::Args;
 use ockam_api::nodes::models::identity::{LongIdentityResponse, ShortIdentityResponse};
+
+use crate::util::exitcode;
+use crate::util::output::Output;
+use crate::CommandGlobalOpts;
 
 /// List nodes
 #[derive(Clone, Debug, Args)]

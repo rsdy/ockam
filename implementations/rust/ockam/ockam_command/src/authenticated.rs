@@ -1,5 +1,3 @@
-use crate::help;
-use crate::util::embedded_node;
 use anyhow::{anyhow, Result};
 use clap::builder::NonEmptyStringValueParser;
 use clap::{Args, Subcommand};
@@ -9,7 +7,11 @@ use ockam_api::auth;
 use ockam_identity::authenticated_storage::AttributesEntry;
 use ockam_identity::IdentityIdentifier;
 use ockam_multiaddr::MultiAddr;
-use termimad::{minimad::TextTemplate, MadSkin};
+use termimad::minimad::TextTemplate;
+use termimad::MadSkin;
+
+use crate::help;
+use crate::util::embedded_node;
 
 const HELP_DETAIL: &str = "";
 

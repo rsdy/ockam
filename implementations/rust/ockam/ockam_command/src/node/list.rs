@@ -1,10 +1,14 @@
-use crate::util::{api, exitcode, node_rpc, RpcBuilder};
-use crate::{help, node::show::print_query_status, node::HELP_DETAIL, CommandGlobalOpts};
+use std::time::Duration;
+
 use anyhow::{anyhow, Context as _};
 use clap::Args;
 use ockam::{Context, TcpTransport};
 use ockam_api::nodes::models::base::NodeStatus;
-use std::time::Duration;
+
+use crate::node::show::print_query_status;
+use crate::node::HELP_DETAIL;
+use crate::util::{api, exitcode, node_rpc, RpcBuilder};
+use crate::{help, CommandGlobalOpts};
 
 /// List nodes
 #[derive(Clone, Debug, Args)]

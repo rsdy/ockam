@@ -1,9 +1,7 @@
-use crate::node::default_node_name;
-use crate::util::{api, BackgroundNode, Rpc, RpcBuilder};
-use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
+use core::time::Duration;
+
 use clap::Args;
 use colorful::Colorful;
-use core::time::Duration;
 use ockam::TcpTransport;
 use ockam_api::nodes::models::portal::{InletList, OutletList};
 use ockam_api::nodes::models::services::ServiceList;
@@ -14,6 +12,10 @@ use ockam_multiaddr::proto::{DnsAddr, Node, Tcp};
 use ockam_multiaddr::MultiAddr;
 use tokio_retry::strategy::FibonacciBackoff;
 use tracing::debug;
+
+use crate::node::{default_node_name, HELP_DETAIL};
+use crate::util::{api, BackgroundNode, Rpc, RpcBuilder};
+use crate::{help, CommandGlobalOpts};
 
 const IS_NODE_UP_MAX_ATTEMPTS: usize = 50;
 const IS_NODE_UP_MAX_TIMEOUT: Duration = Duration::from_secs(1);

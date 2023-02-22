@@ -1,6 +1,7 @@
-use crate::node::default_node_name;
-use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
 use clap::Args;
+
+use crate::node::{default_node_name, HELP_DETAIL};
+use crate::{help, CommandGlobalOpts};
 
 /// Stop a node
 #[derive(Clone, Debug, Args)]

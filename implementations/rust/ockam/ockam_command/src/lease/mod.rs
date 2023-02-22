@@ -3,18 +3,14 @@ mod list;
 mod revoke;
 mod show;
 
+use clap::{Args, Subcommand};
 pub use create::CreateCommand;
 pub use list::ListCommand;
 pub use show::ShowCommand;
 
-use clap::{Args, Subcommand};
-
-use crate::{
-    util::api::{CloudOpts, ProjectOpts},
-    CommandGlobalOpts,
-};
-
 use self::revoke::RevokeCommand;
+use crate::util::api::{CloudOpts, ProjectOpts};
+use crate::CommandGlobalOpts;
 
 #[derive(Clone, Debug, Args)]
 #[command(arg_required_else_help = true, subcommand_required = true)]

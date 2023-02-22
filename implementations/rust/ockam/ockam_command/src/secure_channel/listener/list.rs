@@ -1,11 +1,9 @@
 use clap::Args;
-
 use ockam::Context;
 
 use crate::node::NodeOpts;
 use crate::secure_channel::HELP_DETAIL;
-use crate::util::api;
-use crate::util::{node_rpc, Rpc};
+use crate::util::{api, node_rpc, Rpc};
 use crate::{help, CommandGlobalOpts};
 
 /// List Secure Channel Listeners

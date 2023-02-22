@@ -1,13 +1,11 @@
 use clap::Args;
-
 use ockam::Context;
 use ockam_api::cloud::project::Enroller;
 
-use crate::help;
 use crate::node::util::delete_embedded_node;
 use crate::util::api::{self, CloudOpts};
 use crate::util::{node_rpc, Rpc};
-use crate::CommandGlobalOpts;
+use crate::{help, CommandGlobalOpts};
 
 /// Adds an authorized enroller to the project' authority
 #[derive(Clone, Debug, Args)]

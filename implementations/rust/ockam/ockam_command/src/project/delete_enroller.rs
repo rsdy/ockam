@@ -1,12 +1,10 @@
 use clap::Args;
-
 use ockam::Context;
 
-use crate::help;
 use crate::node::util::delete_embedded_node;
 use crate::util::api::{self, CloudOpts};
 use crate::util::{node_rpc, Rpc};
-use crate::CommandGlobalOpts;
+use crate::{help, CommandGlobalOpts};
 
 /// Remove an identity as authorized enroller from the project' authority
 #[derive(Clone, Debug, Args)]

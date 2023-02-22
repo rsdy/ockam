@@ -1,25 +1,23 @@
-use crate::{
-    help,
-    util::{exitcode, extract_address_value, node_rpc},
-    CommandGlobalOpts, OutputFormat, Result,
-};
-
 use anyhow::Context as _;
 use clap::Args;
 use colorful::Colorful;
+use ockam::identity::IdentityIdentifier;
+use ockam::{route, Context, TcpTransport};
+use ockam_api::config::lookup::ConfigLookup;
+use ockam_api::nodes::models;
+use ockam_api::nodes::models::secure_channel::{
+    CreateSecureChannelResponse,
+    CredentialExchangeMode,
+};
+use ockam_api::{clean_multiaddr, route_to_multiaddr};
 use ockam_core::api::Request;
+use ockam_multiaddr::MultiAddr;
 use serde_json::json;
 
 use crate::secure_channel::HELP_DETAIL;
 use crate::util::api::CloudOpts;
-use crate::util::{is_tty, RpcBuilder};
-use ockam::{identity::IdentityIdentifier, route, Context, TcpTransport};
-use ockam_api::nodes::models::secure_channel::CredentialExchangeMode;
-use ockam_api::{
-    clean_multiaddr, nodes::models::secure_channel::CreateSecureChannelResponse, route_to_multiaddr,
-};
-use ockam_api::{config::lookup::ConfigLookup, nodes::models};
-use ockam_multiaddr::MultiAddr;
+use crate::util::{exitcode, extract_address_value, is_tty, node_rpc, RpcBuilder};
+use crate::{help, CommandGlobalOpts, OutputFormat, Result};
 
 /// Create Secure Channels
 #[derive(Clone, Debug, Args)]

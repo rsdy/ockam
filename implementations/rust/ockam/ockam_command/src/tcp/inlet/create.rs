@@ -1,19 +1,23 @@
-use crate::util::{
-    bind_to_port_check, exitcode, extract_address_value, node_rpc, process_multi_addr, RpcBuilder,
-};
-use crate::Result;
-use crate::{help, CommandGlobalOpts};
-use anyhow::anyhow;
-use anyhow::ensure;
+use std::net::SocketAddr;
+
+use anyhow::{anyhow, ensure};
 use clap::Args;
 use ockam::identity::IdentityIdentifier;
 use ockam::{Context, TcpTransport};
-use ockam_api::nodes::models::portal::CreateInlet;
-use ockam_api::nodes::models::portal::InletStatus;
+use ockam_api::nodes::models::portal::{CreateInlet, InletStatus};
 use ockam_core::api::Request;
 use ockam_multiaddr::proto::Project;
 use ockam_multiaddr::{MultiAddr, Protocol as _};
-use std::net::SocketAddr;
+
+use crate::util::{
+    bind_to_port_check,
+    exitcode,
+    extract_address_value,
+    node_rpc,
+    process_multi_addr,
+    RpcBuilder,
+};
+use crate::{help, CommandGlobalOpts, Result};
 
 const HELP_DETAIL: &str = include_str!("../../constants/tcp/inlet/help_detail.txt");
 

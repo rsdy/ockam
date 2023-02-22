@@ -1,10 +1,11 @@
-use crate::util::node_rpc;
-use crate::CommandGlobalOpts;
 use clap::Args;
 use ockam::Context;
 use ockam_api::cli_state::{self, VaultConfig};
 use ockam_identity::Identity;
 use rand::prelude::random;
+
+use crate::util::node_rpc;
+use crate::CommandGlobalOpts;
 
 #[derive(Clone, Debug, Args)]
 pub struct CreateCommand {

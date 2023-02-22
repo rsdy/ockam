@@ -1,5 +1,6 @@
-use crate::CommandGlobalOpts;
 use clap::Args;
+
+use crate::CommandGlobalOpts;
 
 #[derive(Clone, Debug, Args)]
 pub struct SetDefaultNodeCommand {

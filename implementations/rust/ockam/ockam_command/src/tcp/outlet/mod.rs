@@ -1,8 +1,9 @@
 mod create;
 
-use crate::CommandGlobalOpts;
 use clap::{Args, Subcommand};
 use create::CreateCommand;
+
+use crate::CommandGlobalOpts;
 
 /// Manage TCP Outlets
 #[derive(Clone, Debug, Args)]

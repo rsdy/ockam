@@ -1,8 +1,7 @@
 mod default;
 
-use crate::util::node_rpc;
-use crate::vault::default::DefaultCommand;
-use crate::{help, CommandGlobalOpts, Result};
+use std::path::PathBuf;
+
 use anyhow::anyhow;
 use clap::{Args, Subcommand};
 use ockam::Context;
@@ -10,7 +9,10 @@ use ockam_api::cli_state;
 use ockam_core::vault::{Secret, SecretAttributes, SecretPersistence, SecretType, SecretVault};
 use ockam_identity::{Identity, IdentityStateConst, KeyAttributes};
 use rand::prelude::random;
-use std::path::PathBuf;
+
+use crate::util::node_rpc;
+use crate::vault::default::DefaultCommand;
+use crate::{help, CommandGlobalOpts, Result};
 
 const HELP_DETAIL: &str = "";
 

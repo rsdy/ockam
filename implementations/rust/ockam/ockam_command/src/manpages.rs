@@ -1,14 +1,15 @@
-use crate::help;
-use crate::OckamCommand;
-use clap::builder::NonEmptyStringValueParser;
-use clap::{ArgAction, Args, Command, CommandFactory};
-use clap_mangen::Man;
-use flate2::{Compression, GzBuilder};
 use std::fs::{create_dir_all, File};
 use std::io::{Error, Write};
 use std::path::{Path, PathBuf};
 use std::{env, io, str};
+
+use clap::builder::NonEmptyStringValueParser;
+use clap::{ArgAction, Args, Command, CommandFactory};
+use clap_mangen::Man;
+use flate2::{Compression, GzBuilder};
 use tracing::error;
+
+use crate::{help, OckamCommand};
 
 const LONG_HELP: &str = "\
 man pages output directory. Absolute path required. Will be created in case not existing. \

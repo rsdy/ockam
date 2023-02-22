@@ -1,7 +1,9 @@
-use crate::node::default_node_name;
-use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
-use clap::Args;
 use std::path::PathBuf;
+
+use clap::Args;
+
+use crate::node::{default_node_name, HELP_DETAIL};
+use crate::{help, CommandGlobalOpts};
 
 /// Get the stdout/stderr log file of a node
 #[derive(Clone, Debug, Args)]

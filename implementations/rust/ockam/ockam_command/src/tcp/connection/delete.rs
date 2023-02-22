@@ -1,8 +1,10 @@
-use crate::util::{extract_address_value, node_rpc, Rpc};
-use crate::{node::NodeOpts, CommandGlobalOpts};
 use clap::Args;
 use ockam_api::nodes::models;
 use ockam_core::api::Request;
+
+use crate::node::NodeOpts;
+use crate::util::{extract_address_value, node_rpc, Rpc};
+use crate::CommandGlobalOpts;
 
 #[derive(Clone, Debug, Args)]
 #[command(arg_required_else_help = true)]

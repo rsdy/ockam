@@ -1,14 +1,15 @@
 //! Handle local node configuration
 
-use std::{ops::Deref, path::PathBuf, sync::RwLockReadGuard};
+use std::ops::Deref;
+use std::path::PathBuf;
+use std::sync::RwLockReadGuard;
 
 use anyhow::Result;
-use tracing::trace;
-
 use ockam::identity::IdentityIdentifier;
 use ockam_api::cli_state;
-use ockam_api::config::lookup::ProjectLookup;
-use ockam_api::config::{cli, lookup::ConfigLookup, Config};
+use ockam_api::config::lookup::{ConfigLookup, ProjectLookup};
+use ockam_api::config::{cli, Config};
+use tracing::trace;
 
 /// A simple wrapper around the main configuration structure to add
 /// local config utility/ query functions

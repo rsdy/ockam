@@ -1,6 +1,5 @@
-use crate::util::{api, node_rpc, RpcBuilder};
-use crate::CommandGlobalOpts;
-use crate::Result;
+use std::time::Duration;
+
 use anyhow::anyhow;
 use clap::Args;
 use ockam::{Context, TcpTransport};
@@ -9,7 +8,9 @@ use ockam_api::lmdb::LmdbStorage;
 use ockam_api::nodes::models::base::NodeStatus;
 use ockam_identity::Identity;
 use ockam_vault::Vault;
-use std::time::Duration;
+
+use crate::util::{api, node_rpc, RpcBuilder};
+use crate::{CommandGlobalOpts, Result};
 
 /// Display Ockam Status
 #[derive(Clone, Debug, Args)]

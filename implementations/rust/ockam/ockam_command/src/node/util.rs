@@ -1,31 +1,31 @@
-use anyhow::{anyhow, Context as _};
-
-use ockam_api::config::lookup::ProjectLookup;
-use rand::random;
 use std::env::current_exe;
 use std::fs::OpenOptions;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
+use anyhow::{anyhow, Context as _};
 use ockam::identity::credential::OneTimeCode;
 use ockam::identity::{Identity, PublicIdentity};
 use ockam::{Context, TcpTransport};
 use ockam_api::cli_state;
 use ockam_api::config::cli;
+use ockam_api::config::lookup::ProjectLookup;
 use ockam_api::nodes::models::transport::{TransportMode, TransportType};
 use ockam_api::nodes::service::{
-    NodeManagerGeneralOptions, NodeManagerProjectsOptions, NodeManagerTransportOptions,
+    NodeManagerGeneralOptions,
+    NodeManagerProjectsOptions,
+    NodeManagerTransportOptions,
 };
 use ockam_api::nodes::{NodeManager, NodeManagerWorker, NODEMANAGER_ADDR};
 use ockam_core::AllowAll;
 use ockam_multiaddr::MultiAddr;
 use ockam_vault::Vault;
+use rand::random;
 
 use crate::node::CreateCommand;
 use crate::project::ProjectInfo;
 use crate::util::api::ProjectOpts;
-use crate::CommandGlobalOpts;
-use crate::{project, OckamConfig};
+use crate::{project, CommandGlobalOpts, OckamConfig};
 
 pub async fn start_embedded_node(
     ctx: &Context,

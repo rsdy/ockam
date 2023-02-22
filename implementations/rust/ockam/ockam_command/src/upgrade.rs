@@ -1,7 +1,8 @@
+use std::env;
+
 use clap::crate_version;
 use colorful::Colorful;
 use serde::Deserialize;
-use std::env;
 use tokio::runtime::Builder;
 
 #[derive(Deserialize)]

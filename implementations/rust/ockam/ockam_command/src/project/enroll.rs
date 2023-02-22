@@ -1,7 +1,7 @@
-use clap::Args;
 use std::collections::HashMap;
 
 use anyhow::{anyhow, Context as _};
+use clap::Args;
 use ockam::identity::credential::OneTimeCode;
 use ockam::identity::IdentityIdentifier;
 use ockam::Context;

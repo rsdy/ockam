@@ -1,51 +1,45 @@
+use std::net::{IpAddr, SocketAddr};
+use std::path::PathBuf;
+use std::str::FromStr;
+
+use anyhow::{anyhow, Context as _};
 use clap::Args;
 use minicbor::Decoder;
 use ockam::identity::credential::{Credential, OneTimeCode};
+use ockam::{Address, AsyncTryClone, Context, TcpTransport, TCP};
+use ockam_api::bootstrapped_identities_store::PreTrustedIdentities;
+use ockam_api::nodes::models::transport::{CreateTransportJson, TransportMode, TransportType};
+use ockam_api::nodes::service::{
+    NodeManagerGeneralOptions,
+    NodeManagerProjectsOptions,
+    NodeManagerTransportOptions,
+};
+use ockam_api::nodes::{NodeManager, NodeManagerWorker, NODEMANAGER_ADDR};
+use ockam_core::api::{Response, Status};
+use ockam_core::{AllowAll, LOCAL};
 use rand::prelude::random;
 use tokio::io::AsyncBufReadExt;
-
-use anyhow::{anyhow, Context as _};
-use std::{
-    net::{IpAddr, SocketAddr},
-    path::PathBuf,
-    str::FromStr,
-};
 use tracing::error;
 
-use crate::service::start;
-use crate::util::{bind_to_port_check, exitcode};
-use crate::{
-    help, node::show::print_query_status, node::HELP_DETAIL, project, util::find_available_port,
-    CommandGlobalOpts,
-};
-use crate::{node::util::spawn_node, util::parse_node_name};
-use crate::{
-    node::util::{add_project_authority_from_project_info, init_node_state},
-    util::RpcBuilder,
-};
-use crate::{project::ProjectInfo, util::api};
-use crate::{secure_channel::listener::create as secure_channel_listener, util::BackgroundNode};
-use crate::{service::config::Config, util::ForegroundNode};
-use ockam::{Address, AsyncTryClone, TCP};
-use ockam::{Context, TcpTransport};
-use ockam_api::nodes::models::transport::CreateTransportJson;
-use ockam_api::{
-    bootstrapped_identities_store::PreTrustedIdentities,
-    nodes::models::transport::{TransportMode, TransportType},
-    nodes::{
-        service::{
-            NodeManagerGeneralOptions, NodeManagerProjectsOptions, NodeManagerTransportOptions,
-        },
-        NodeManager, NodeManagerWorker, NODEMANAGER_ADDR,
-    },
-};
-
-use ockam_core::{
-    api::{Response, Status},
-    AllowAll, LOCAL,
-};
-
 use super::util::delete_node;
+use crate::node::show::print_query_status;
+use crate::node::util::{add_project_authority_from_project_info, init_node_state, spawn_node};
+use crate::node::HELP_DETAIL;
+use crate::project::ProjectInfo;
+use crate::secure_channel::listener::create as secure_channel_listener;
+use crate::service::config::Config;
+use crate::service::start;
+use crate::util::{
+    api,
+    bind_to_port_check,
+    exitcode,
+    find_available_port,
+    parse_node_name,
+    BackgroundNode,
+    ForegroundNode,
+    RpcBuilder,
+};
+use crate::{help, project, CommandGlobalOpts};
 
 /// Create a node
 #[derive(Clone, Debug, Args)]

@@ -1,12 +1,11 @@
 pub(crate) mod get_credential;
 pub(crate) mod present_credential;
 
+use clap::{Args, Subcommand};
 pub(crate) use get_credential::GetCredentialCommand;
 pub(crate) use present_credential::PresentCredentialCommand;
 
-use crate::help;
-use crate::CommandGlobalOpts;
-use clap::{Args, Subcommand};
+use crate::{help, CommandGlobalOpts};
 
 const HELP_DETAIL: &str = "";
 

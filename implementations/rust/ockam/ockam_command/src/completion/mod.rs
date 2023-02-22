@@ -1,7 +1,9 @@
-use crate::{help, OckamCommand};
+use std::io;
+
 use clap::{Args, CommandFactory};
 use clap_complete::{generate, Shell};
-use std::io;
+
+use crate::{help, OckamCommand};
 
 const HELP_DETAIL: &str = include_str!("../constants/completion/help_detail.txt");
 

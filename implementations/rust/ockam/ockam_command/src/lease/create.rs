@@ -1,24 +1,18 @@
 use std::str::FromStr;
 
 use clap::Args;
-
 use ockam::Context;
 use ockam_api::cloud::lease_manager::models::influxdb::Token;
 use ockam_core::api::Request;
 use ockam_multiaddr::MultiAddr;
-use termimad::{minimad::TextTemplate, MadSkin};
-
-use crate::{
-    help,
-    util::{
-        api::{CloudOpts, ProjectOpts},
-        node_rpc,
-        orchestrator_api::OrchestratorApiBuilder,
-    },
-    CommandGlobalOpts,
-};
+use termimad::minimad::TextTemplate;
+use termimad::MadSkin;
 
 use super::TOKEN_VIEW;
+use crate::util::api::{CloudOpts, ProjectOpts};
+use crate::util::node_rpc;
+use crate::util::orchestrator_api::OrchestratorApiBuilder;
+use crate::{help, CommandGlobalOpts};
 
 const HELP_DETAIL: &str = "";
 

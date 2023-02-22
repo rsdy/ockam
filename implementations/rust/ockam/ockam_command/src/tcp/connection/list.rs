@@ -1,12 +1,13 @@
-use crate::node::NodeOpts;
-use crate::util::{extract_address_value, node_rpc, Rpc};
-use crate::CommandGlobalOpts;
 use anyhow::Context;
 use clap::Args;
 use cli_table::{print_stdout, Cell, Style, Table};
 use ockam_api::nodes::models;
 use ockam_api::nodes::models::transport::TransportStatus;
 use ockam_core::api::Request;
+
+use crate::node::NodeOpts;
+use crate::util::{extract_address_value, node_rpc, Rpc};
+use crate::CommandGlobalOpts;
 
 #[derive(Args, Clone, Debug)]
 pub struct ListCommand {

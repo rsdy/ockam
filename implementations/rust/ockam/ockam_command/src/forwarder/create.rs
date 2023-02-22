@@ -1,20 +1,18 @@
 use anyhow::{anyhow, Context as _};
 use clap::Args;
 use ockam::identity::IdentityIdentifier;
-use ockam_multiaddr::proto::Project;
-use rand::prelude::random;
-
 use ockam::{Context, TcpTransport};
 use ockam_api::is_local_node;
 use ockam_api::nodes::models::forwarder::{CreateForwarder, ForwarderInfo};
 use ockam_core::api::Request;
+use ockam_multiaddr::proto::Project;
 use ockam_multiaddr::{MultiAddr, Protocol};
+use rand::prelude::random;
 
 use crate::forwarder::HELP_DETAIL;
 use crate::util::output::Output;
 use crate::util::{extract_address_value, node_rpc, process_multi_addr, RpcBuilder};
-use crate::Result;
-use crate::{help, CommandGlobalOpts};
+use crate::{help, CommandGlobalOpts, Result};
 
 /// Create Forwarders
 #[derive(Clone, Debug, Args)]

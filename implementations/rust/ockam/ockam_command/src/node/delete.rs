@@ -1,7 +1,8 @@
-use crate::node::default_node_name;
-use crate::node::util::{delete_all_nodes, delete_node};
-use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
 use clap::Args;
+
+use crate::node::util::{delete_all_nodes, delete_node};
+use crate::node::{default_node_name, HELP_DETAIL};
+use crate::{help, CommandGlobalOpts};
 
 /// Delete a node
 #[derive(Clone, Debug, Args)]

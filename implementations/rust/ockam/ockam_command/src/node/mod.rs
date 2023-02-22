@@ -1,5 +1,4 @@
 use clap::{Args, Subcommand};
-
 pub(crate) use create::CreateCommand;
 use delete::DeleteCommand;
 use list::ListCommand;
@@ -9,7 +8,8 @@ use show::ShowCommand;
 use start::StartCommand;
 use stop::StopCommand;
 
-use crate::{help, util::BackgroundNode, CommandGlobalOpts};
+use crate::util::BackgroundNode;
+use crate::{help, CommandGlobalOpts};
 
 mod create;
 mod delete;

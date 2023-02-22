@@ -1,5 +1,6 @@
-use assert_cmd::prelude::*;
 use std::process::Command;
+
+use assert_cmd::prelude::*;
 
 #[test]
 fn valid_arguments() -> Result<(), Box<dyn std::error::Error>> {

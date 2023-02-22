@@ -1,20 +1,14 @@
 use clap::Args;
 use colorful::Colorful;
-
 use ockam::{Context, TcpTransport};
 use ockam_api::nodes::models::secure_channel::ShowSecureChannelResponse;
 use ockam_api::route_to_multiaddr;
 use ockam_core::{route, Address};
-
 use serde_json::json;
 
 use crate::secure_channel::HELP_DETAIL;
-use crate::util::{is_tty, RpcBuilder};
-use crate::{
-    exitcode, help,
-    util::{api, node_rpc},
-    CommandGlobalOpts, OutputFormat,
-};
+use crate::util::{api, is_tty, node_rpc, RpcBuilder};
+use crate::{exitcode, help, CommandGlobalOpts, OutputFormat};
 
 /// List Secure Channels
 #[derive(Clone, Debug, Args)]

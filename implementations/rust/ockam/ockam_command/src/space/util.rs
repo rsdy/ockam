@@ -1,14 +1,13 @@
 use anyhow::{Context as _, Result};
-
 use ockam::Context;
 use ockam_api::cloud::space::Space;
 
 pub mod config {
-    use crate::util::{api, RpcBuilder};
-    use crate::{CommandGlobalOpts, OckamConfig};
     use ockam_multiaddr::MultiAddr;
 
     use super::*;
+    use crate::util::{api, RpcBuilder};
+    use crate::{CommandGlobalOpts, OckamConfig};
 
     pub fn set_space(config: &OckamConfig, space: &Space) -> Result<()> {
         config.set_space_alias(&space.id, &space.name);

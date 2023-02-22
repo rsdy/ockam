@@ -2,17 +2,17 @@ use std::io::Write;
 use std::str::FromStr;
 
 use anyhow::{anyhow, Context as _, Result};
-use ockam_core::api::Request;
-use tracing::debug;
-
 use ockam::identity::IdentityIdentifier;
 use ockam::TcpTransport;
 use ockam_api::authenticator::direct::types::AddMember;
 use ockam_api::cloud::project::Project;
 use ockam_api::config::lookup::{LookupMeta, ProjectAuthority, ProjectLookup};
 use ockam_api::multiaddr_to_addr;
-use ockam_api::nodes::models::{self, secure_channel::*};
+use ockam_api::nodes::models::secure_channel::*;
+use ockam_api::nodes::models::{self};
+use ockam_core::api::Request;
 use ockam_multiaddr::{MultiAddr, Protocol};
+use tracing::debug;
 
 use crate::project::enroll::replace_project;
 use crate::util::api::CloudOpts;
@@ -303,12 +303,11 @@ pub async fn project_enroll_admin(
 }
 
 pub mod config {
-    use crate::util::output::Output;
     use ockam::Context;
-
     use tracing::trace;
 
     use super::*;
+    use crate::util::output::Output;
 
     async fn set(config: &OckamConfig, project: &Project<'_>) -> Result<()> {
         if !project.is_ready() {

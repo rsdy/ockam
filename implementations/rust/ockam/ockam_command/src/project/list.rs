@@ -1,6 +1,5 @@
 use clap::Args;
 use ockam::Context;
-
 use ockam_api::cloud::project::Project;
 
 use crate::node::util::delete_embedded_node;

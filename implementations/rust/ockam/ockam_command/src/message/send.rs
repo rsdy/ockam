@@ -1,6 +1,5 @@
 use anyhow::Context as _;
 use clap::Args;
-
 use ockam::{Context, TcpTransport};
 use ockam_api::clean_multiaddr;
 use ockam_api::nodes::models::secure_channel::CredentialExchangeMode;
@@ -8,11 +7,11 @@ use ockam_api::nodes::service::message::SendMessage;
 use ockam_core::api::{Request, RequestBuilder};
 use ockam_multiaddr::MultiAddr;
 
+use crate::message::HELP_DETAIL;
 use crate::node::util::{delete_embedded_node, start_embedded_node_with_vault_and_identity};
 use crate::util::api::{CloudOpts, ProjectOpts};
 use crate::util::{extract_address_value, node_rpc, RpcBuilder};
-use crate::Result;
-use crate::{help, message::HELP_DETAIL, CommandGlobalOpts};
+use crate::{help, CommandGlobalOpts, Result};
 
 /// Send messages
 #[derive(Clone, Debug, Args)]

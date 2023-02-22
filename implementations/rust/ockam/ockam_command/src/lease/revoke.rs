@@ -5,15 +5,10 @@ use ockam::Context;
 use ockam_core::api::Request;
 use ockam_multiaddr::MultiAddr;
 
-use crate::{
-    help,
-    util::{
-        api::{CloudOpts, ProjectOpts},
-        node_rpc,
-        orchestrator_api::OrchestratorApiBuilder,
-    },
-    CommandGlobalOpts,
-};
+use crate::util::api::{CloudOpts, ProjectOpts};
+use crate::util::node_rpc;
+use crate::util::orchestrator_api::OrchestratorApiBuilder;
+use crate::{help, CommandGlobalOpts};
 
 const HELP_DETAIL: &str = "";
 

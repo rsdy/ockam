@@ -1,27 +1,24 @@
 use std::path::PathBuf;
 
-use crate::{
-    node::util::{delete_node, start_embedded_node_with_vault_and_identity},
-    project::{
-        util::{create_secure_channel_to_authority, create_secure_channel_to_project},
-        ProjectInfo,
-    },
-    util::Rpc,
-    CommandGlobalOpts,
-};
 use anyhow::{Context as _, Result};
 use minicbor::{Decode, Encode};
 use ockam::identity::credential::{Credential, OneTimeCode};
 use ockam::Context;
-use ockam_api::{
-    authenticator::direct::Client, config::lookup::ProjectLookup,
-    nodes::models::secure_channel::CredentialExchangeMode, DefaultAddress,
-};
+use ockam_api::authenticator::direct::Client;
+use ockam_api::config::lookup::ProjectLookup;
+use ockam_api::nodes::models::secure_channel::CredentialExchangeMode;
+use ockam_api::DefaultAddress;
 use ockam_core::api::RequestBuilder;
 use ockam_multiaddr::MultiAddr;
 use tracing::info;
 
-use super::{api::ProjectOpts, RpcBuilder};
+use super::api::ProjectOpts;
+use super::RpcBuilder;
+use crate::node::util::{delete_node, start_embedded_node_with_vault_and_identity};
+use crate::project::util::{create_secure_channel_to_authority, create_secure_channel_to_project};
+use crate::project::ProjectInfo;
+use crate::util::Rpc;
+use crate::CommandGlobalOpts;
 
 pub enum OrchestratorEndpoint {
     Authenticator,
