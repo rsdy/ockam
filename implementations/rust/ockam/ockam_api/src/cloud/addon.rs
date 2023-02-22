@@ -1,9 +1,8 @@
 use minicbor::{Decode, Encode};
-use serde::{Deserialize, Serialize};
-
 use ockam_core::CowStr;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use serde::{Deserialize, Serialize};
 
 #[derive(Encode, Decode, Serialize, Deserialize, Debug)]
 #[cfg_attr(test, derive(Clone))]
@@ -88,11 +87,10 @@ impl ConfluentConfigResponse<'_> {
 mod node {
     use minicbor::{Decode, Decoder, Encode};
     use ockam::AsyncTryClone;
-    use tracing::trace;
-
     use ockam_core::api::Request;
     use ockam_core::{self, Result};
     use ockam_node::Context;
+    use tracing::trace;
 
     use crate::cloud::addon::ConfluentConfig;
     use crate::cloud::project::{InfluxDBTokenLeaseManagerConfig, OktaConfig};

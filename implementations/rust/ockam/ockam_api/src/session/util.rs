@@ -1,6 +1,7 @@
+use std::time::Duration;
+
 use ockam_multiaddr::proto::{DnsAddr, Ip4, Ip6, Secure, Tcp};
 use ockam_multiaddr::{Match, MultiAddr, Protocol};
-use std::time::Duration;
 
 pub(crate) const MAX_RECOVERY_TIME: Duration = Duration::from_secs(10);
 pub(crate) const MAX_CONNECT_TIME: Duration = Duration::from_secs(5);

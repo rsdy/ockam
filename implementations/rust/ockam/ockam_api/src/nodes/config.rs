@@ -1,6 +1,8 @@
-use std::fmt::Formatter;
-use std::io::Write;
-use std::{fmt::Display, fs::File, io::Read, path::Path, str::FromStr};
+use std::fmt::{Display, Formatter};
+use std::fs::File;
+use std::io::{Read, Write};
+use std::path::Path;
+use std::str::FromStr;
 
 use anyhow::anyhow;
 

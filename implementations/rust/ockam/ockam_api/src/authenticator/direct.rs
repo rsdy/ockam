@@ -1,31 +1,46 @@
 pub mod types;
 
 use core::{fmt, str};
-use lru::LruCache;
-use minicbor::{Decoder, Encode};
-use ockam::identity::authenticated_storage::{
-    AttributesEntry, AuthenticatedStorage, IdentityAttributeStorage,
-};
-use ockam::identity::credential::{Credential, OneTimeCode, SchemaId, Timestamp};
-use ockam::identity::{
-    Identity, IdentityIdentifier, IdentitySecureChannelLocalInfo, IdentityVault,
-};
-use ockam_core::api::{self, assert_request_match, assert_response_match};
-use ockam_core::api::{Error, Method, Request, RequestBuilder, Response, ResponseBuilder, Status};
-use ockam_core::errcode::{Kind, Origin};
-use ockam_core::{self, Address, DenyAll, Result, Route, Routed, Worker};
-use ockam_node::Context;
-use serde_json as json;
 use std::collections::HashMap;
 use std::num::NonZeroUsize;
 use std::path::Path;
 use std::time::{Duration, Instant};
+
+use lru::LruCache;
+use minicbor::{Decoder, Encode};
+use ockam::identity::authenticated_storage::{
+    AttributesEntry,
+    AuthenticatedStorage,
+    IdentityAttributeStorage,
+};
+use ockam::identity::credential::{Credential, OneTimeCode, SchemaId, Timestamp};
+use ockam::identity::{
+    Identity,
+    IdentityIdentifier,
+    IdentitySecureChannelLocalInfo,
+    IdentityVault,
+};
+use ockam_core::api::{
+    self,
+    assert_request_match,
+    assert_response_match,
+    Error,
+    Method,
+    Request,
+    RequestBuilder,
+    Response,
+    ResponseBuilder,
+    Status,
+};
+use ockam_core::errcode::{Kind, Origin};
+use ockam_core::{self, Address, DenyAll, Result, Route, Routed, Worker};
+use ockam_node::Context;
+use serde_json as json;
 use tracing::{trace, warn};
 use types::AddMember;
 
-use crate::authenticator::direct::types::CreateToken;
-
 use self::types::Enroller;
+use crate::authenticator::direct::types::CreateToken;
 
 const LEGACY_MEMBER: &str = "member";
 const MAX_TOKEN_DURATION: Duration = Duration::from_secs(600);

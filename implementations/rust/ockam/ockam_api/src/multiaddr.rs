@@ -1,13 +1,15 @@
-use crate::cli_state::CliState;
-use crate::config::lookup::{InternetAddress, LookupMeta};
-use crate::error::ApiError;
-use anyhow::anyhow;
 use core::str::FromStr;
+
+use anyhow::anyhow;
 use ockam_core::compat::net::{SocketAddrV4, SocketAddrV6};
 use ockam_core::{Address, Error, Result, Route, LOCAL};
 use ockam_multiaddr::proto::{DnsAddr, Ip4, Ip6, Node, Project, Secure, Service, Space, Tcp};
 use ockam_multiaddr::{MultiAddr, Protocol};
 use ockam_transport_tcp::TCP;
+
+use crate::cli_state::CliState;
+use crate::config::lookup::{InternetAddress, LookupMeta};
+use crate::error::ApiError;
 
 /// Go through a multiaddr and remove all instances of
 /// `/node/<whatever>` out of it and replaces it with a fully
@@ -234,15 +236,18 @@ fn clean_multiaddr_simple() {
 
 #[cfg(test)]
 pub mod test {
-    use crate::cli_state::{CliState, IdentityConfig, NodeConfig, VaultConfig};
-    use crate::nodes::service::{
-        NodeManagerGeneralOptions, NodeManagerProjectsOptions, NodeManagerTransportOptions,
-    };
-    use crate::nodes::{NodeManager, NodeManagerWorker, NODEMANAGER_ADDR};
     use ockam::Result;
     use ockam_core::AsyncTryClone;
     use ockam_identity::Identity;
     use ockam_node::Context;
+
+    use crate::cli_state::{CliState, IdentityConfig, NodeConfig, VaultConfig};
+    use crate::nodes::service::{
+        NodeManagerGeneralOptions,
+        NodeManagerProjectsOptions,
+        NodeManagerTransportOptions,
+    };
+    use crate::nodes::{NodeManager, NodeManagerWorker, NODEMANAGER_ADDR};
 
     ///guard to delete the cli state at the end of the test
     pub struct CliStateGuard {

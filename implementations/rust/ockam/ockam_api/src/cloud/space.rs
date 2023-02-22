@@ -1,9 +1,8 @@
 use minicbor::{Decode, Encode};
-use serde::Serialize;
-
 use ockam_core::CowStr;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use serde::Serialize;
 
 #[derive(Encode, Decode, Serialize, Debug)]
 #[rustfmt::skip]
@@ -59,12 +58,10 @@ impl<'a> CreateSpace<'a> {
 
 mod node {
     use minicbor::Decoder;
-    use tracing::trace;
-
     use ockam_core::api::Request;
-    use ockam_core::AsyncTryClone;
-    use ockam_core::{self, Result};
+    use ockam_core::{self, AsyncTryClone, Result};
     use ockam_node::Context;
+    use tracing::trace;
 
     use crate::cloud::space::CreateSpace;
     use crate::cloud::{BareCloudRequestWrapper, CloudRequestWrapper};
@@ -178,15 +175,13 @@ mod node {
 pub mod tests {
     use quickcheck::{Arbitrary, Gen};
 
-    use crate::cloud::space::CreateSpace;
-
     use super::*;
+    use crate::cloud::space::CreateSpace;
 
     mod schema {
         use cddl_cat::validate_cbor_bytes;
-        use quickcheck::{quickcheck, TestResult};
-
         use ockam_core::api::SCHEMA;
+        use quickcheck::{quickcheck, TestResult};
 
         use super::*;
 

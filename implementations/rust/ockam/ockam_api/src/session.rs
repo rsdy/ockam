@@ -1,21 +1,20 @@
 mod sessions;
 pub(crate) mod util;
 
-use crate::{multiaddr_to_route, DefaultAddress};
 use minicbor::{Decode, Encode};
 use ockam::{LocalMessage, Route, TransportMessage, Worker};
 use ockam_core::compat::sync::{Arc, Mutex};
 use ockam_core::{Address, AllowAll, Decodable, DenyAll, Encodable, Error, Routed, LOCAL};
 use ockam_multiaddr::MultiAddr;
-use ockam_node::tokio;
 use ockam_node::tokio::sync::mpsc;
 use ockam_node::tokio::task::JoinSet;
 use ockam_node::tokio::time::{timeout, Duration};
-use ockam_node::Context;
+use ockam_node::{tokio, Context};
+pub use sessions::{Data, Replacer, Session, Sessions};
 use sessions::{Key, Ping, Status};
 use tracing as log;
 
-pub use sessions::{Data, Replacer, Session, Sessions};
+use crate::{multiaddr_to_route, DefaultAddress};
 
 const MAX_FAILURES: usize = 3;
 const DELAY: Duration = Duration::from_secs(3);

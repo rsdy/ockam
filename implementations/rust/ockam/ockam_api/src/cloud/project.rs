@@ -1,18 +1,15 @@
 use std::str::FromStr;
 
 use minicbor::{Decode, Encode};
-use serde::{Deserialize, Serialize};
-
-use crate::cloud::addon::ConfluentConfigResponse;
-use ockam_core::AsyncTryClone;
-use ockam_core::CowStr;
-use ockam_core::Result;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_core::{AsyncTryClone, CowStr, Result};
 use ockam_identity::IdentityIdentifier;
 use ockam_multiaddr::MultiAddr;
 use ockam_node::tokio;
+use serde::{Deserialize, Serialize};
 
+use crate::cloud::addon::ConfluentConfigResponse;
 use crate::error::ApiError;
 use crate::multiaddr_to_addr;
 
@@ -335,17 +332,15 @@ impl<'a> AddEnroller<'a> {
 
 mod node {
     use minicbor::Decoder;
-    use tracing::trace;
-
     use ockam_core::api::Request;
     use ockam_core::{self, Result};
     use ockam_node::Context;
+    use tracing::trace;
 
+    use super::*;
     use crate::cli_state;
     use crate::cloud::{BareCloudRequestWrapper, CloudRequestWrapper};
     use crate::nodes::NodeManagerWorker;
-
-    use super::*;
 
     const TARGET: &str = "ockam_api::cloud::project";
 
@@ -638,9 +633,8 @@ mod tests {
 
     mod schema {
         use cddl_cat::validate_cbor_bytes;
-        use quickcheck::{quickcheck, TestResult};
-
         use ockam_core::api::SCHEMA;
+        use quickcheck::{quickcheck, TestResult};
 
         use super::*;
 

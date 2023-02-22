@@ -1,17 +1,19 @@
 //! Node Manager (Node Man, the superhero that we deserve)
 
-use minicbor::Decoder;
+use std::collections::BTreeMap;
+use std::error::Error as _;
+use std::path::PathBuf;
+use std::time::Duration;
 
+use minicbor::Decoder;
 use ockam::compat::asynchronous::RwLock;
 use ockam::identity::credential::OneTimeCode;
 use ockam::identity::{Identity, IdentityIdentifier, PublicIdentity};
 use ockam::{Address, Context, ForwardingService, Result, Routed, TcpTransport, Worker};
 use ockam_core::api::{Error, Method, Request, Response, ResponseBuilder, Status};
-use ockam_core::compat::{
-    boxed::Box,
-    string::String,
-    sync::{Arc, Mutex},
-};
+use ockam_core::compat::boxed::Box;
+use ockam_core::compat::string::String;
+use ockam_core::compat::sync::{Arc, Mutex};
 use ockam_core::errcode::{Kind, Origin};
 use ockam_core::{AllowAll, AsyncTryClone};
 use ockam_identity::authenticated_storage::AuthenticatedAttributeStorage;
@@ -20,15 +22,10 @@ use ockam_multiaddr::{MultiAddr, Protocol};
 use ockam_node::tokio;
 use ockam_node::tokio::task::JoinHandle;
 use ockam_vault::Vault;
-use std::collections::BTreeMap;
-use std::error::Error as _;
-use std::path::PathBuf;
-use std::time::Duration;
 
 use super::models::secure_channel::CredentialExchangeMode;
 use super::registry::Registry;
-use crate::bootstrapped_identities_store::BootstrapedIdentityStore;
-use crate::bootstrapped_identities_store::PreTrustedIdentities;
+use crate::bootstrapped_identities_store::{BootstrapedIdentityStore, PreTrustedIdentities};
 use crate::cli_state::CliState;
 use crate::config::cli::AuthoritiesConfig;
 use crate::config::lookup::ProjectLookup;

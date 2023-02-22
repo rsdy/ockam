@@ -1,13 +1,14 @@
-use minicbor::{Decode, Encode};
-use ockam_core::{CowStr, Result};
 use std::fmt::{self, Display};
+
+use minicbor::{Decode, Encode};
+#[cfg(feature = "tag")]
+use ockam_core::TypeTag;
+use ockam_core::{CowStr, Result};
+use ockam_multiaddr::proto::{DnsAddr, Ip4, Ip6, Tcp};
+use ockam_multiaddr::MultiAddr;
 
 use crate::cli_state::CliStateError;
 use crate::config::lookup::InternetAddress;
-#[cfg(feature = "tag")]
-use ockam_core::TypeTag;
-use ockam_multiaddr::proto::{DnsAddr, Ip4, Ip6, Tcp};
-use ockam_multiaddr::MultiAddr;
 
 ///////////////////-!  REQUEST BODIES
 

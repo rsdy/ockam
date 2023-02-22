@@ -4,7 +4,6 @@
 
 use minicbor::{Decode, Encode};
 use ockam_core::CowStr;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
 

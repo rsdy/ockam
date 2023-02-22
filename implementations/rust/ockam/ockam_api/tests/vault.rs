@@ -1,7 +1,12 @@
 use minicbor::Decoder;
 use ockam_api::vault::models::{
-    CreateSecretRequest, CreateSecretResponse, PublicKeyResponse, SignRequest, SignResponse,
-    VerifyRequest, VerifyResponse,
+    CreateSecretRequest,
+    CreateSecretResponse,
+    PublicKeyResponse,
+    SignRequest,
+    SignResponse,
+    VerifyRequest,
+    VerifyResponse,
 };
 use ockam_api::vault::VaultService;
 use ockam_core::api::{Request, Response, Status};

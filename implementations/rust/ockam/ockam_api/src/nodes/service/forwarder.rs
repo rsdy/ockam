@@ -1,7 +1,6 @@
 use std::sync::Arc;
 
 use minicbor::Decoder;
-
 use ockam::compat::asynchronous::RwLock;
 use ockam::remote::RemoteForwarder;
 use ockam::Result;
@@ -12,13 +11,11 @@ use ockam_multiaddr::MultiAddr;
 use ockam_node::tokio::time::timeout;
 use ockam_node::Context;
 
+use super::{NodeManager, NodeManagerWorker};
 use crate::error::ApiError;
 use crate::nodes::models::forwarder::{CreateForwarder, ForwarderInfo};
-use crate::session::util;
-use crate::session::{Replacer, Session};
+use crate::session::{util, Replacer, Session};
 use crate::{multiaddr_to_route, try_multiaddr_to_addr};
-
-use super::{NodeManager, NodeManagerWorker};
 
 impl NodeManagerWorker {
     pub(super) async fn create_forwarder(

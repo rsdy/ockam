@@ -2,8 +2,7 @@ pub mod types;
 
 use either::Either;
 use minicbor::Decoder;
-use ockam_core::api::{self, Id, ResponseBuilder};
-use ockam_core::api::{Error, Method, Request, Response};
+use ockam_core::api::{self, Error, Id, Method, Request, Response, ResponseBuilder};
 use ockam_core::{self, Result, Routed, Worker};
 use ockam_identity::credential::{Credential, CredentialData, Verified};
 use ockam_identity::{IdentityVault, PublicIdentity};

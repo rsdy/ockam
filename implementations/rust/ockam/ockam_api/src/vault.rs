@@ -7,10 +7,16 @@ use minicbor::{Decoder, Encode};
 use models::*;
 use ockam_core::api::{Error, Id, Method, Request, Response, Status};
 use ockam_core::vault::{
-    AsymmetricVault, Hasher, KeyId, SecretVault, Signature, Signer, SymmetricVault, Verifier,
+    AsymmetricVault,
+    Hasher,
+    KeyId,
+    SecretVault,
+    Signature,
+    Signer,
+    SymmetricVault,
+    Verifier,
 };
-use ockam_core::CowStr;
-use ockam_core::{Result, Routed, Worker};
+use ockam_core::{CowStr, Result, Routed, Worker};
 use ockam_node::Context;
 use ockam_vault::Vault;
 use tracing::trace;

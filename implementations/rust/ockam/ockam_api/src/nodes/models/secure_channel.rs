@@ -1,8 +1,6 @@
 use std::time::Duration;
 
 use minicbor::{Decode, Encode};
-
-use crate::nodes::registry::SecureChannelInfo;
 use ockam_core::compat::borrow::Cow;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
@@ -12,6 +10,7 @@ use ockam_multiaddr::MultiAddr;
 use serde::Serialize;
 
 use crate::error::ApiError;
+use crate::nodes::registry::SecureChannelInfo;
 use crate::route_to_multiaddr;
 
 #[derive(Debug, Clone, Copy, Decode, Encode)]

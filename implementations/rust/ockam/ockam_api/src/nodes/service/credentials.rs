@@ -1,10 +1,5 @@
-use crate::authenticator::direct::Client;
-use crate::error::ApiError;
-use crate::multiaddr_to_route;
-use crate::nodes::models::credentials::{GetCredentialRequest, PresentCredentialRequest};
-use crate::nodes::service::map_multiaddr_err;
-use crate::nodes::NodeManager;
-use crate::DefaultAddress;
+use std::str::FromStr;
+
 use either::Either;
 use minicbor::Decoder;
 use ockam::Result;
@@ -12,9 +7,14 @@ use ockam_core::api::{Error, Request, Response, ResponseBuilder};
 use ockam_core::{route, AsyncTryClone};
 use ockam_identity::credential::Credential;
 use ockam_multiaddr::MultiAddr;
-use std::str::FromStr;
 
 use super::NodeManagerWorker;
+use crate::authenticator::direct::Client;
+use crate::error::ApiError;
+use crate::nodes::models::credentials::{GetCredentialRequest, PresentCredentialRequest};
+use crate::nodes::service::map_multiaddr_err;
+use crate::nodes::NodeManager;
+use crate::{multiaddr_to_route, DefaultAddress};
 
 impl NodeManager {
     pub(super) async fn get_credential_impl(&mut self, overwrite: bool) -> Result<()> {

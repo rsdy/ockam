@@ -2,13 +2,12 @@ use core::pin::Pin;
 
 use bytes::BytesMut;
 use futures::Stream;
-use tokio::io::{AsyncWriteExt, DuplexStream};
-use tokio_util::codec::{FramedRead, LengthDelimitedCodec};
-
 use ockam::compat::tokio;
 use ockam_core::compat::io::{Error, ErrorKind};
 use ockam_core::compat::task::Poll;
 use ockam_transport_tcp::MAX_PAYLOAD_SIZE;
+use tokio::io::{AsyncWriteExt, DuplexStream};
+use tokio_util::codec::{FramedRead, LengthDelimitedCodec};
 
 use crate::kafka::portal_worker::MAX_KAFKA_MESSAGE_SIZE;
 

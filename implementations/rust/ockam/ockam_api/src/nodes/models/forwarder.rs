@@ -1,12 +1,10 @@
 use minicbor::{Decode, Encode};
-
 use ockam::remote::RemoteForwarderInfo;
 use ockam_core::CowStr;
-use ockam_identity::IdentityIdentifier;
-use ockam_multiaddr::MultiAddr;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_identity::IdentityIdentifier;
+use ockam_multiaddr::MultiAddr;
 
 /// Request body when instructing a node to create a forwarder
 #[derive(Debug, Clone, Decode, Encode)]

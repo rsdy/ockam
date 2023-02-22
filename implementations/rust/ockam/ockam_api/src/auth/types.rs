@@ -1,5 +1,4 @@
 use minicbor::{Decode, Encode};
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
 

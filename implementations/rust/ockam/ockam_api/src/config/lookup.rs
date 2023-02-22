@@ -1,5 +1,8 @@
-use crate::cloud::project::{OktaAuth0, Project};
-use crate::error::ApiError;
+use std::collections::BTreeMap;
+use std::fmt;
+use std::net::{SocketAddr, SocketAddrV4, SocketAddrV6};
+use std::str::FromStr;
+
 use anyhow::Context as _;
 use bytes::Bytes;
 use ockam_core::compat::collections::VecDeque;
@@ -8,12 +11,9 @@ use ockam_identity::{IdentityIdentifier, PublicIdentity};
 use ockam_multiaddr::MultiAddr;
 use ockam_vault::Vault;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::BTreeMap,
-    fmt,
-    net::{SocketAddr, SocketAddrV4, SocketAddrV6},
-    str::FromStr,
-};
+
+use crate::cloud::project::{OktaAuth0, Project};
+use crate::error::ApiError;
 
 #[derive(Debug, Default)]
 pub struct LookupMeta {

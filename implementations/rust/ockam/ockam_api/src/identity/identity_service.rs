@@ -1,6 +1,5 @@
-use crate::cli_state;
-use crate::identity::models::*;
 use core::convert::Infallible;
+
 use minicbor::encode::Write;
 use minicbor::{Decoder, Encode};
 use ockam_core::api::{Error, Id, Method, Request, Response, Status};
@@ -11,6 +10,9 @@ use ockam_identity::{Identity, PublicIdentity};
 use ockam_node::Context;
 use ockam_vault::Vault;
 use tracing::trace;
+
+use crate::cli_state;
+use crate::identity::models::*;
 
 /// Vault Service Worker
 pub struct IdentityService {

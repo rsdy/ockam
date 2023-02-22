@@ -1,12 +1,10 @@
 use minicbor::{Decode, Encode};
 use ockam_core::compat::net::Ipv4Addr;
-use ockam_core::{CowBytes, CowStr};
-
-use serde::Serialize;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_core::{CowBytes, CowStr};
 use ockam_multiaddr::MultiAddr;
+use serde::Serialize;
 
 #[derive(Debug, Clone, Decode, Encode)]
 #[rustfmt::skip]

@@ -1,7 +1,6 @@
-use tracing::trace;
-
 use ockam_core::{Address, AllowAll, Any, Route, Routed, Worker};
 use ockam_node::Context;
+use tracing::trace;
 
 use crate::kafka::inlet_map::KafkaInletMap;
 use crate::kafka::portal_worker::KafkaPortalWorker;

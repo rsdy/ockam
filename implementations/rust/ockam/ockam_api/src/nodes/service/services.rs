@@ -1,25 +1,3 @@
-use crate::auth::Server;
-use crate::echoer::Echoer;
-use crate::error::ApiError;
-use crate::hop::Hop;
-use crate::identity::IdentityService;
-use crate::kafka::{KafkaPortalListener, KAFKA_BOOTSTRAP_ADDRESS, KAFKA_INTERCEPTOR_ADDRESS};
-use crate::nodes::models::services::{
-    ServiceList, ServiceStatus, StartAuthenticatedServiceRequest, StartAuthenticatorRequest,
-    StartCredentialsService, StartEchoerServiceRequest, StartHopServiceRequest,
-    StartIdentityServiceRequest, StartKafkaConsumerRequest, StartKafkaProducerRequest,
-    StartOktaIdentityProviderRequest, StartServiceRequest, StartUppercaseServiceRequest,
-    StartVaultServiceRequest, StartVerifierService,
-};
-use crate::nodes::registry::{
-    CredentialsServiceInfo, KafkaServiceInfo, KafkaServiceKind, Registry, VerifierServiceInfo,
-};
-use crate::nodes::NodeManager;
-use crate::port_range::PortRange;
-use crate::try_multiaddr_to_route;
-use crate::uppercase::Uppercase;
-use crate::vault::VaultService;
-use crate::DefaultAddress;
 use minicbor::Decoder;
 use ockam::{Address, AsyncTryClone, Context, Result};
 use ockam_core::api::{Request, Response, ResponseBuilder};
@@ -27,6 +5,41 @@ use ockam_core::{AllowAll, Route};
 use ockam_multiaddr::MultiAddr;
 
 use super::NodeManagerWorker;
+use crate::auth::Server;
+use crate::echoer::Echoer;
+use crate::error::ApiError;
+use crate::hop::Hop;
+use crate::identity::IdentityService;
+use crate::kafka::{KafkaPortalListener, KAFKA_BOOTSTRAP_ADDRESS, KAFKA_INTERCEPTOR_ADDRESS};
+use crate::nodes::models::services::{
+    ServiceList,
+    ServiceStatus,
+    StartAuthenticatedServiceRequest,
+    StartAuthenticatorRequest,
+    StartCredentialsService,
+    StartEchoerServiceRequest,
+    StartHopServiceRequest,
+    StartIdentityServiceRequest,
+    StartKafkaConsumerRequest,
+    StartKafkaProducerRequest,
+    StartOktaIdentityProviderRequest,
+    StartServiceRequest,
+    StartUppercaseServiceRequest,
+    StartVaultServiceRequest,
+    StartVerifierService,
+};
+use crate::nodes::registry::{
+    CredentialsServiceInfo,
+    KafkaServiceInfo,
+    KafkaServiceKind,
+    Registry,
+    VerifierServiceInfo,
+};
+use crate::nodes::NodeManager;
+use crate::port_range::PortRange;
+use crate::uppercase::Uppercase;
+use crate::vault::VaultService;
+use crate::{try_multiaddr_to_route, DefaultAddress};
 
 impl NodeManager {
     pub(super) async fn start_vault_service_impl(

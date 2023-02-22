@@ -1,12 +1,12 @@
+use std::collections::BTreeMap;
+
 use minicbor::{Decode, Encode};
 use ockam_core::compat::borrow::Cow;
 use ockam_core::CowBytes;
-use ockam_identity::credential::{Attributes, Timestamp};
-use ockam_identity::IdentityIdentifier;
-use std::collections::BTreeMap;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_identity::credential::{Attributes, Timestamp};
+use ockam_identity::IdentityIdentifier;
 
 #[derive(Debug, Decode, Encode)]
 #[rustfmt::skip]

@@ -1,9 +1,7 @@
-use std::{
-    fs::{create_dir_all, File},
-    io::{Read, Write},
-    path::{Path, PathBuf},
-    sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard},
-};
+use std::fs::{create_dir_all, File};
+use std::io::{Read, Write};
+use std::path::{Path, PathBuf};
+use std::sync::{Arc, RwLock, RwLockReadGuard, RwLockWriteGuard};
 
 use anyhow::Context;
 use serde::de::DeserializeOwned;

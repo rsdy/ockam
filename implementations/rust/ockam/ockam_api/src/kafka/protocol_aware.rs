@@ -2,14 +2,13 @@ use bytes::BytesMut;
 use kafka_protocol::messages::{ApiKey, MetadataResponse, RequestHeader, ResponseHeader};
 use kafka_protocol::protocol::buf::ByteBuf;
 use kafka_protocol::protocol::{Decodable, Encodable, StrBytes};
-use tracing::info;
-
 use ockam_core::compat::collections::HashMap;
 use ockam_core::compat::fmt::Debug;
 use ockam_core::compat::io::{Error, ErrorKind};
 use ockam_core::compat::net::SocketAddr;
 use ockam_core::compat::sync::{Arc, Mutex};
 use ockam_node::Context;
+use tracing::info;
 
 use crate::kafka::inlet_map::KafkaInletMap;
 use crate::kafka::portal_worker::InterceptError;

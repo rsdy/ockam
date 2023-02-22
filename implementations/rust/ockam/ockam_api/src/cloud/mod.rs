@@ -1,12 +1,12 @@
 use std::str::FromStr;
 
 use minicbor::{Decode, Encode};
-
-use crate::error::ApiError;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
 use ockam_core::{CowStr, Result, Route};
 use ockam_multiaddr::MultiAddr;
+
+use crate::error::ApiError;
 
 pub mod addon;
 pub mod enroll;
@@ -76,14 +76,13 @@ mod node {
     use std::str::FromStr;
 
     use minicbor::Encode;
-    use ockam_vault::Vault;
-    use rust_embed::EmbeddedFile;
-
     use ockam_core::api::RequestBuilder;
     use ockam_core::{self, route, Address, Result, Route};
     use ockam_identity::{Identity, IdentityIdentifier, TrustIdentifierPolicy};
     use ockam_node::api::request;
     use ockam_node::Context;
+    use ockam_vault::Vault;
+    use rust_embed::EmbeddedFile;
 
     use crate::cloud::OCKAM_CONTROLLER_IDENTITY_ID;
     use crate::error::ApiError;

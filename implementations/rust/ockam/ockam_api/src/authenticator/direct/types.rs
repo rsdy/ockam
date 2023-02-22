@@ -1,11 +1,11 @@
-use minicbor::{Decode, Encode};
-use ockam_core::CowStr;
-use ockam_identity::IdentityIdentifier;
-use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
+use minicbor::{Decode, Encode};
+use ockam_core::CowStr;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_identity::IdentityIdentifier;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Decode, Encode)]
 #[rustfmt::skip]

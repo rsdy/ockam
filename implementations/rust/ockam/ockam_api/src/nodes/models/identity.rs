@@ -1,11 +1,9 @@
 use minicbor::{Decode, Encode};
 use ockam_core::compat::borrow::Cow;
-use serde::Serialize;
-
 use ockam_core::CowBytes;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use serde::Serialize;
 
 #[derive(Debug, Clone, Decode, Encode, Serialize)]
 #[rustfmt::skip]

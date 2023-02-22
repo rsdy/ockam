@@ -1,15 +1,16 @@
-use crate::error::ApiError;
 use core::str;
+use std::collections::HashMap;
+
 use minicbor::Decoder;
-use ockam_core::api;
 use ockam_core::api::{Method, Request, Response};
-use ockam_core::{self, Result, Routed, Worker};
+use ockam_core::{self, api, Result, Routed, Worker};
 use ockam_identity::authenticated_storage::AuthenticatedStorage;
 use ockam_identity::{IdentityIdentifier, IdentitySecureChannelLocalInfo};
 use ockam_node::Context;
 use reqwest::StatusCode;
-use std::collections::HashMap;
 use tracing::trace;
+
+use crate::error::ApiError;
 
 const MEMBER: &str = "member";
 

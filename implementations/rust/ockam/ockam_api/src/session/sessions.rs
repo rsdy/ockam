@@ -2,13 +2,14 @@ use core::any::Any;
 use core::fmt;
 use core::future::Future;
 use core::pin::Pin;
+use std::sync::{Arc, Mutex};
+
 use minicbor::bytes::ByteArray;
 use minicbor::{Decode, Encode};
 use ockam_core::compat::collections::HashMap;
 use ockam_core::compat::rand;
 use ockam_core::Error;
 use ockam_multiaddr::MultiAddr;
-use std::sync::{Arc, Mutex};
 use tracing as log;
 
 pub type Replacement = Pin<Box<dyn Future<Output = Result<MultiAddr, Error>> + Send>>;

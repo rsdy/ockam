@@ -1,6 +1,6 @@
 use core::str::FromStr;
-use minicbor::Decoder;
 
+use minicbor::Decoder;
 use ockam::compat::tokio::sync::Mutex;
 use ockam_core::api::{Request, Response, Status};
 use ockam_core::compat::collections::HashMap;

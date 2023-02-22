@@ -1,9 +1,9 @@
 pub mod types;
 
 use core::fmt;
+
 use minicbor::Decoder;
-use ockam_core::api::decode_option;
-use ockam_core::api::{Method, Request, Response};
+use ockam_core::api::{decode_option, Method, Request, Response};
 use ockam_core::{self, Address, DenyAll, Result, Route, Routed, Worker};
 use ockam_identity::authenticated_storage::{AttributesEntry, IdentityAttributeStorageReader};
 use ockam_identity::IdentityIdentifier;

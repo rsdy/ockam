@@ -1,14 +1,19 @@
 use std::collections::BTreeMap;
 
-use crate::nodes::models::transport::{
-    CreateTransport, DeleteTransport, TransportList, TransportMode, TransportStatus, TransportType,
-};
-use crate::nodes::service::{random_alias, Alias};
 use minicbor::Decoder;
 use ockam::Result;
 use ockam_core::api::{Request, Response, ResponseBuilder};
 
 use super::NodeManagerWorker;
+use crate::nodes::models::transport::{
+    CreateTransport,
+    DeleteTransport,
+    TransportList,
+    TransportMode,
+    TransportStatus,
+    TransportType,
+};
+use crate::nodes::service::{random_alias, Alias};
 
 impl NodeManagerWorker {
     pub(super) fn get_tcp_con_or_list<'a>(
@@ -34,7 +39,9 @@ impl NodeManagerWorker {
         let mut node_manager = self.node_manager.write().await;
         let CreateTransport { tt, tm, addr, .. } = dec.decode()?;
 
-        use {super::TransportType::*, TransportMode::*};
+        use TransportMode::*;
+
+        use super::TransportType::*;
 
         info!(
             "Handling request to create a new transport: {}, {}, {}",

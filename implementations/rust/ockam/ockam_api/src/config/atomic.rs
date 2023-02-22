@@ -8,15 +8,15 @@
 //! To update the configuration call `Config::atomic_update`, which
 //! generates an AtomicUpdater.
 
-use crate::config::ConfigValues;
-use anyhow::anyhow;
+use std::fs::{self, File};
+use std::io::Write;
 use std::path::{Path, PathBuf};
-use std::{
-    fs::{self, File},
-    io::Write,
-    sync::{Arc, RwLock},
-    time::Duration,
-};
+use std::sync::{Arc, RwLock};
+use std::time::Duration;
+
+use anyhow::anyhow;
+
+use crate::config::ConfigValues;
 
 /// Takes a version of the Config and persists it to disk
 #[must_use]

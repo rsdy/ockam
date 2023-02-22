@@ -1,10 +1,9 @@
 use bytes::{Bytes, BytesMut};
 use futures::SinkExt;
-use tokio::io::{AsyncReadExt, DuplexStream};
-use tokio_util::codec::{FramedWrite, LengthDelimitedCodec};
-
 use ockam::compat::tokio;
 use ockam_core::compat::io::ErrorKind;
+use tokio::io::{AsyncReadExt, DuplexStream};
+use tokio_util::codec::{FramedWrite, LengthDelimitedCodec};
 
 use crate::kafka::portal_worker::MAX_KAFKA_MESSAGE_SIZE;
 

@@ -1,10 +1,8 @@
 use minicbor::{Decode, Encode};
-use serde::{Deserialize, Serialize};
-
-use ockam_core::AsyncTryClone;
-use ockam_core::CowStr;
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_core::{AsyncTryClone, CowStr};
+use serde::{Deserialize, Serialize};
 
 #[derive(Encode, Decode, Debug)]
 #[cfg_attr(test, derive(Clone))]
@@ -88,16 +86,14 @@ pub struct Subscription<'a> {
 
 mod node {
     use minicbor::Decoder;
-    use tracing::trace;
-
     use ockam_core::api::Request;
     use ockam_core::{self, Result};
     use ockam_node::Context;
-
-    use crate::cloud::{BareCloudRequestWrapper, CloudRequestWrapper};
-    use crate::nodes::NodeManagerWorker;
+    use tracing::trace;
 
     use super::*;
+    use crate::cloud::{BareCloudRequestWrapper, CloudRequestWrapper};
+    use crate::nodes::NodeManagerWorker;
 
     const TARGET: &str = "ockam_api::cloud::subscription";
     const API_SERVICE: &str = "subscriptions";

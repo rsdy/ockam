@@ -1,4 +1,5 @@
 use core::fmt;
+
 use minicbor::{Decode, Encode};
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 

@@ -1,8 +1,7 @@
 use minicbor::{Decode, Encode};
-use ockam_core::{CowBytes, CowStr};
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_core::{CowBytes, CowStr};
 
 #[derive(Debug, Clone, Encode, Decode)]
 #[rustfmt::skip]

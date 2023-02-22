@@ -2,7 +2,6 @@ use minicbor::{Decode, Encode};
 use ockam::vault::Secret;
 use ockam_core::vault::{PublicKey, SecretAttributes};
 use ockam_core::CowStr;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
 

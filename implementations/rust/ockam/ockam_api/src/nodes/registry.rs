@@ -1,7 +1,8 @@
-use crate::nodes::service::Alias;
 use ockam_core::compat::collections::BTreeMap;
 use ockam_core::{Address, Route};
 use ockam_identity::IdentityIdentifier;
+
+use crate::nodes::service::Alias;
 
 #[derive(Default)]
 pub(crate) struct SecureChannelRegistry {

@@ -1,6 +1,5 @@
 use cddl_cat::validate_cbor_bytes;
-use ockam_core::api::SCHEMA;
-use ockam_core::api::{Error, Id, Method, Request, Response, Status};
+use ockam_core::api::{Error, Id, Method, Request, Response, Status, SCHEMA};
 use quickcheck::{quickcheck, Arbitrary, Gen, TestResult};
 
 const METHODS: &[Method] = &[

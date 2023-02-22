@@ -1,16 +1,16 @@
 use core::str;
-use lmdb::{Cursor, Database, Environment, Transaction};
-use minicbor::{Decode, Encode};
-use ockam_abac::{Action, Expr, PolicyStorage, Resource};
-use ockam_core::async_trait;
-use ockam_core::errcode::{Kind, Origin};
-use ockam_core::{Error, Result};
-use ockam_identity::authenticated_storage::AuthenticatedStorage;
-use ockam_node::tokio::task::{self, JoinError};
 use std::borrow::Cow;
 use std::fmt;
 use std::path::Path;
 use std::sync::Arc;
+
+use lmdb::{Cursor, Database, Environment, Transaction};
+use minicbor::{Decode, Encode};
+use ockam_abac::{Action, Expr, PolicyStorage, Resource};
+use ockam_core::errcode::{Kind, Origin};
+use ockam_core::{async_trait, Error, Result};
+use ockam_identity::authenticated_storage::AuthenticatedStorage;
+use ockam_node::tokio::task::{self, JoinError};
 use tracing as log;
 
 /// Lmdb AuthenticatedStorage implementation

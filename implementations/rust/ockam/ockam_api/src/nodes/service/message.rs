@@ -1,11 +1,9 @@
 use std::str::FromStr;
 
 use minicbor::{Decode, Encode};
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
-use ockam_core::{CowBytes, CowStr};
-use ockam_core::{Result, Route};
+use ockam_core::{CowBytes, CowStr, Result, Route};
 use ockam_multiaddr::MultiAddr;
 
 use crate::error::ApiError;
@@ -41,11 +39,10 @@ impl<'a> SendMessage<'a> {
 
 mod node {
     use minicbor::Decoder;
-    use tracing::trace;
-
     use ockam_core::api::{Request, Response, Status};
     use ockam_core::{self, Result};
     use ockam_node::Context;
+    use tracing::trace;
 
     use crate::nodes::NodeManagerWorker;
 

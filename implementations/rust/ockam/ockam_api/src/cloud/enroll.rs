@@ -1,10 +1,9 @@
 use std::borrow::Cow;
 
 use minicbor::{Decode, Encode};
-use serde::{Deserialize, Serialize};
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use serde::{Deserialize, Serialize};
 
 #[derive(Encode, Decode, Serialize, Deserialize, Debug)]
 #[cfg_attr(test, derive(PartialEq, Eq, Clone))]
@@ -20,18 +19,16 @@ impl Token {
 
 mod node {
     use minicbor::Decoder;
-    use tracing::trace;
-
     use ockam_core::api::Request;
-    use ockam_core::AsyncTryClone;
-    use ockam_core::{self, Result};
+    use ockam_core::{self, AsyncTryClone, Result};
+    use ockam_identity::credential::Attributes;
     use ockam_node::Context;
+    use tracing::trace;
 
     use crate::cloud::enroll::auth0::AuthenticateAuth0Token;
     use crate::cloud::enroll::enrollment_token::{EnrollmentToken, RequestEnrollmentToken};
     use crate::cloud::CloudRequestWrapper;
     use crate::nodes::NodeManagerWorker;
-    use ockam_identity::credential::Attributes;
 
     const TARGET: &str = "ockam_api::cloud::enroll";
 

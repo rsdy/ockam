@@ -1,11 +1,9 @@
 #![allow(missing_docs)]
 
-use ockam_core::{CowBytes, CowStr};
-
 use minicbor::{Decode, Encode};
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
+use ockam_core::{CowBytes, CowStr};
 
 #[derive(Debug, Clone, Encode, Decode)]
 #[rustfmt::skip]

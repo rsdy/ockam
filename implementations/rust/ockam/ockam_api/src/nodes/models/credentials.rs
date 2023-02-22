@@ -2,7 +2,6 @@
 
 use minicbor::{Decode, Encode};
 use ockam_core::compat::borrow::Cow;
-
 #[cfg(feature = "tag")]
 use ockam_core::TypeTag;
 use ockam_multiaddr::MultiAddr;

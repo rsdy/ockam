@@ -1,15 +1,19 @@
-use ockam_core::async_trait;
-use ockam_core::compat::{collections::HashMap, string::String, vec::Vec};
+use std::path::PathBuf;
+
+use ockam_core::compat::collections::HashMap;
+use ockam_core::compat::string::String;
+use ockam_core::compat::vec::Vec;
 use ockam_core::errcode::{Kind, Origin};
-use ockam_core::{AsyncTryClone, Result};
+use ockam_core::{async_trait, AsyncTryClone, Result};
 use ockam_identity::authenticated_storage::{
-    AttributesEntry, IdentityAttributeStorage, IdentityAttributeStorageReader,
+    AttributesEntry,
+    IdentityAttributeStorage,
+    IdentityAttributeStorageReader,
     IdentityAttributeStorageWriter,
 };
 use ockam_identity::credential::Timestamp;
 use ockam_identity::IdentityIdentifier;
 use serde_json as json;
-use std::path::PathBuf;
 use tracing::trace;
 
 #[derive(AsyncTryClone)]

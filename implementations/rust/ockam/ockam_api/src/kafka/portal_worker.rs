@@ -1,9 +1,17 @@
-use core::sync::atomic::AtomicBool;
-use core::sync::atomic::Ordering;
+use core::sync::atomic::{AtomicBool, Ordering};
+
 use ockam_core::compat::sync::Arc;
+use ockam_core::errcode::{Kind, Origin};
 use ockam_core::{
-    errcode::{Kind, Origin},
-    Address, AllowAll, Encodable, Error, LocalInfo, LocalMessage, Route, Routed, TransportMessage,
+    Address,
+    AllowAll,
+    Encodable,
+    Error,
+    LocalInfo,
+    LocalMessage,
+    Route,
+    Routed,
+    TransportMessage,
     Worker,
 };
 use ockam_node::Context;
@@ -283,12 +291,14 @@ mod test {
     use bytes::{Buf, BufMut, BytesMut};
     use kafka_protocol::messages::metadata_response::MetadataResponseBroker;
     use kafka_protocol::messages::{
-        ApiKey, BrokerId, MetadataRequest, MetadataResponse, RequestHeader, ResponseHeader,
+        ApiKey,
+        BrokerId,
+        MetadataRequest,
+        MetadataResponse,
+        RequestHeader,
+        ResponseHeader,
     };
-    use kafka_protocol::protocol::Decodable;
-    use kafka_protocol::protocol::Encodable as KafkaEncodable;
-    use kafka_protocol::protocol::StrBytes;
-
+    use kafka_protocol::protocol::{Decodable, Encodable as KafkaEncodable, StrBytes};
     use ockam::Context;
     use ockam_core::{route, Routed};
     use ockam_transport_tcp::PortalMessage;

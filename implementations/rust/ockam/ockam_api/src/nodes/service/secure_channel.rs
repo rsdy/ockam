@@ -1,17 +1,5 @@
 use std::time::Duration;
 
-use super::{map_multiaddr_err, NodeManagerWorker};
-use crate::cli_state::CliState;
-use crate::error::ApiError;
-use crate::lmdb::LmdbStorage;
-use crate::nodes::models::secure_channel::{
-    CreateSecureChannelListenerRequest, CreateSecureChannelRequest, CreateSecureChannelResponse,
-    CredentialExchangeMode, DeleteSecureChannelRequest, DeleteSecureChannelResponse,
-    ShowSecureChannelRequest, ShowSecureChannelResponse,
-};
-use crate::nodes::registry::Registry;
-use crate::nodes::NodeManager;
-use crate::DefaultAddress;
 use minicbor::Decoder;
 use ockam::identity::TrustEveryonePolicy;
 use ockam::{Address, Result, Route};
@@ -21,6 +9,24 @@ use ockam_identity::{Identity, IdentityIdentifier, TrustMultiIdentifiersPolicy};
 use ockam_multiaddr::MultiAddr;
 use ockam_node::Context;
 use ockam_vault::Vault;
+
+use super::{map_multiaddr_err, NodeManagerWorker};
+use crate::cli_state::CliState;
+use crate::error::ApiError;
+use crate::lmdb::LmdbStorage;
+use crate::nodes::models::secure_channel::{
+    CreateSecureChannelListenerRequest,
+    CreateSecureChannelRequest,
+    CreateSecureChannelResponse,
+    CredentialExchangeMode,
+    DeleteSecureChannelRequest,
+    DeleteSecureChannelResponse,
+    ShowSecureChannelRequest,
+    ShowSecureChannelResponse,
+};
+use crate::nodes::registry::Registry;
+use crate::nodes::NodeManager;
+use crate::DefaultAddress;
 
 impl NodeManager {
     async fn get_credential_if_needed(&mut self) -> Result<()> {
