@@ -1,5 +1,5 @@
 use crate::node::default_node_name;
-use crate::util::{api, node_rpc, Rpc, RpcBuilder};
+use crate::util::{api, BackgroundNode, Rpc, RpcBuilder};
 use crate::{help, node::HELP_DETAIL, CommandGlobalOpts};
 use clap::Args;
 use colorful::Colorful;
@@ -27,26 +27,22 @@ pub struct ShowCommand {
     node_name: String,
 }
 
-impl ShowCommand {
-    pub fn run(self, options: CommandGlobalOpts) {
-        node_rpc(run_impl, (options, self))
-    }
-}
+#[ockam_core::async_trait]
+impl BackgroundNode for ShowCommand {
+    type Args = CommandGlobalOpts;
 
-async fn run_impl(
-    ctx: ockam::Context,
-    (opts, cmd): (CommandGlobalOpts, ShowCommand),
-) -> crate::Result<()> {
-    let node_name = &cmd.node_name;
+    async fn run_in_background(self, ctx: ockam::Context, opts: Self::Args) -> crate::Result<()> {
+        let node_name = &self.node_name;
 
-    let tcp = TcpTransport::create(&ctx).await?;
-    let mut rpc = RpcBuilder::new(&ctx, &opts, node_name).tcp(&tcp)?.build();
-    let mut is_default = false;
-    if let Ok(state) = opts.state.nodes.default() {
-        is_default = &state.config.name == node_name;
+        let tcp = TcpTransport::create(&ctx).await?;
+        let mut rpc = RpcBuilder::new(&ctx, &opts, node_name).tcp(&tcp)?.build();
+        let mut is_default = false;
+        if let Ok(state) = opts.state.nodes.default() {
+            is_default = &state.config.name == node_name;
+        }
+        print_query_status(&mut rpc, node_name, false, is_default).await?;
+        Ok(())
     }
-    print_query_status(&mut rpc, node_name, false, is_default).await?;
-    Ok(())
 }
 
 // TODO: This function should be replaced with a better system of
