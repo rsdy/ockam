@@ -1,13 +1,16 @@
 //! Configuration files used by the ockam CLI
 
+use crate::cli_state;
 use crate::config::{lookup::ConfigLookup, ConfigValues};
-use crate::{cli_state, HexByteVec};
 use ockam_core::Result;
 use ockam_identity::{IdentityIdentifier, IdentityVault, PublicIdentity};
 use ockam_multiaddr::MultiAddr;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::path::PathBuf;
+
+mod hexbyte_vec;
+use hexbyte_vec::HexByteVec;
 
 /// The main ockam CLI configuration
 ///
