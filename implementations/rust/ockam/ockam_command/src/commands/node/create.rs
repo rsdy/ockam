@@ -31,9 +31,9 @@ use crate::commands::node::util::{
 use crate::commands::node::HELP_DETAIL;
 use crate::commands::project;
 use crate::commands::secure_channel::listener::create as secure_channel_listener;
-use crate::commands::service::config::Config;
 use crate::commands::service::start;
 use crate::config::project::ProjectInfo;
+use crate::config::service::Config;
 use crate::util::{
     api,
     bind_to_port_check,

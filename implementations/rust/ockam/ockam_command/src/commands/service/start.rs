@@ -15,7 +15,7 @@ use ockam_core::compat::net::Ipv4Addr;
 use ockam_multiaddr::MultiAddr;
 
 use crate::commands::node::NodeOpts;
-use crate::commands::service::config::OktaIdentityProviderConfig;
+use crate::config::service::OktaIdentityProviderConfig;
 use crate::util::{api, node_rpc, RpcBuilder};
 use crate::{help, CommandGlobalOpts};
 

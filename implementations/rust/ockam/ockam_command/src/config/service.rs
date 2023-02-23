@@ -6,6 +6,19 @@ use ockam_api::DefaultAddress;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct Config {
+    pub(crate) startup_services: Option<ServiceConfigs>,
+}
+
+impl Config {
+    pub(crate) fn read<P: AsRef<Path>>(path: P) -> Result<Self> {
+        let s = std::fs::read_to_string(path.as_ref())
+            .with_context(|| anyhow!("failed to read {:?}", path.as_ref()))?;
+        serde_json::from_str(&s).with_context(|| anyhow!("invalid config {:?}", path.as_ref()))
+    }
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct VaultConfig {
     #[serde(default = "vault_default_addr")]
     pub(crate) address: String,
@@ -88,19 +101,6 @@ pub struct ServiceConfigs {
     pub(crate) verifier: Option<VerifierConfig>,
     pub(crate) authenticator: Option<AuthenticatorConfig>,
     pub(crate) okta_identity_provider: Option<OktaIdentityProviderConfig>,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Config {
-    pub(crate) startup_services: Option<ServiceConfigs>,
-}
-
-impl Config {
-    pub(crate) fn read<P: AsRef<Path>>(path: P) -> Result<Self> {
-        let s = std::fs::read_to_string(path.as_ref())
-            .with_context(|| anyhow!("failed to read {:?}", path.as_ref()))?;
-        serde_json::from_str(&s).with_context(|| anyhow!("invalid config {:?}", path.as_ref()))
-    }
 }
 
 fn vault_default_addr() -> String {

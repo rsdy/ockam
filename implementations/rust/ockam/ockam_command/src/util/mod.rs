@@ -5,7 +5,6 @@ use std::path::Path;
 use std::str::FromStr;
 
 use anyhow::{anyhow, Context as _, Result};
-pub use config::*;
 use minicbor::data::Type;
 use minicbor::{Decode, Decoder, Encode};
 use ockam::{Address, Context, NodeBuilder, Route, TcpTransport, TCP};
@@ -28,7 +27,6 @@ pub mod api;
 pub mod exitcode;
 pub mod orchestrator_api;
 
-mod config;
 pub(crate) mod output;
 
 pub const DEFAULT_CONTROLLER_ADDRESS: &str = "/dnsaddr/orchestrator.ockam.io/tcp/6252/service/api";

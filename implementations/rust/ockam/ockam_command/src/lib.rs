@@ -38,11 +38,12 @@ use commands::tcp::listener::TcpListenerCommand;
 use commands::tcp::outlet::TcpOutletCommand;
 use commands::vault::VaultCommand;
 use commands::worker::WorkerCommand;
+use config::ockam_config::OckamConfig;
 use error::{Error, Result};
 use ockam_api::cli_state::CliState;
 use upgrade::check_if_an_upgrade_is_available;
 use util::exitcode::ExitCode;
-use util::{exitcode, setup_logging, OckamConfig};
+use util::{exitcode, setup_logging};
 use version::Version;
 
 const ABOUT: &str = include_str!("constants/lib/about.txt");

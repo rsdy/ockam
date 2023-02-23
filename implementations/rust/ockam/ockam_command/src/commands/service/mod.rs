@@ -1,4 +1,3 @@
-pub(crate) mod config;
 pub(crate) mod list;
 pub(crate) mod start;
 pub(crate) mod util;
