@@ -2,6 +2,7 @@
 //! credential management, and authorization policy enforcement — at scale.
 
 mod commands;
+mod config;
 mod error;
 mod help;
 mod terminal;

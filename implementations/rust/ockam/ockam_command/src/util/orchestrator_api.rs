@@ -19,7 +19,7 @@ use crate::commands::project::util::{
     create_secure_channel_to_authority,
     create_secure_channel_to_project,
 };
-use crate::commands::project::ProjectInfo;
+use crate::config::project::ProjectInfo;
 use crate::util::Rpc;
 use crate::CommandGlobalOpts;
 

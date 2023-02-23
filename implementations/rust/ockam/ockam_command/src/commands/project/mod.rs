@@ -18,7 +18,7 @@ pub use create::CreateCommand;
 pub use delete::DeleteCommand;
 pub use delete_enroller::DeleteEnrollerCommand;
 pub use enroll::EnrollCommand;
-pub use info::{InfoCommand, ProjectInfo};
+pub use info::InfoCommand;
 pub use list::ListCommand;
 pub use list_enrollers::ListEnrollersCommand;
 pub use show::ShowCommand;

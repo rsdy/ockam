@@ -16,7 +16,7 @@ use tracing::debug;
 use crate::commands::enroll::{Auth0Provider, Auth0Service};
 use crate::commands::node::util::{delete_embedded_node, start_embedded_node};
 use crate::commands::project::util::create_secure_channel_to_authority;
-use crate::commands::project::ProjectInfo;
+use crate::config::project::ProjectInfo;
 use crate::util::api::{CloudOpts, ProjectOpts};
 use crate::util::{node_rpc, RpcBuilder};
 use crate::CommandGlobalOpts;

@@ -24,7 +24,7 @@ use rand::random;
 
 use crate::commands::node::CreateCommand;
 use crate::commands::project;
-use crate::commands::project::ProjectInfo;
+use crate::config::project::ProjectInfo;
 use crate::util::api::ProjectOpts;
 use crate::{CommandGlobalOpts, OckamConfig};
 
