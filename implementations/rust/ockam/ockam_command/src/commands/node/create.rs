@@ -95,6 +95,7 @@ pub struct CreateCommand {
     #[arg(long, group = "trusted")]
     pub reload_from_trusted_identities_file: Option<PathBuf>,
 
+    // This should be going through ProjectOpts
     #[arg(long, hide = true)]
     pub project: Option<PathBuf>,
 
