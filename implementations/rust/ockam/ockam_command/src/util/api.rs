@@ -42,7 +42,7 @@ pub(crate) fn list_tcp_listeners() -> RequestBuilder<'static, ()> {
 
 /// Construct a request to create node tcp connection
 pub(crate) fn create_tcp_connection(
-    cmd: &crate::tcp::connection::CreateCommand,
+    cmd: &crate::commands::tcp::connection::CreateCommand,
 ) -> RequestBuilder<'static, models::transport::CreateTransport<'static>> {
     let (tt, addr) = (
         models::transport::TransportMode::Connect,
@@ -195,7 +195,7 @@ pub(crate) mod enroll {
     use ockam_api::cloud::enroll::auth0::{Auth0Token, AuthenticateAuth0Token};
 
     use super::*;
-    use crate::enroll::*;
+    use crate::commands::enroll::*;
 
     pub(crate) fn auth0<'a>(
         cmd: EnrollCommand,
@@ -215,7 +215,7 @@ pub(crate) mod space {
     use ockam_api::cloud::space::*;
 
     use super::*;
-    use crate::space::*;
+    use crate::commands::space::*;
 
     pub(crate) fn create(cmd: &CreateCommand) -> RequestBuilder<CloudRequestWrapper<CreateSpace>> {
         let b = CreateSpace::new(&cmd.name, &cmd.admins);
@@ -250,7 +250,7 @@ pub(crate) mod project {
     use ockam_api::cloud::project::*;
 
     use super::*;
-    use crate::project::*;
+    use crate::commands::project::*;
 
     pub(crate) fn create<'a>(
         project_name: &'a str,

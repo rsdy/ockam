@@ -14,9 +14,12 @@ use tracing::info;
 
 use super::api::ProjectOpts;
 use super::RpcBuilder;
-use crate::node::util::{delete_node, start_embedded_node_with_vault_and_identity};
-use crate::project::util::{create_secure_channel_to_authority, create_secure_channel_to_project};
-use crate::project::ProjectInfo;
+use crate::commands::node::util::{delete_node, start_embedded_node_with_vault_and_identity};
+use crate::commands::project::util::{
+    create_secure_channel_to_authority,
+    create_secure_channel_to_project,
+};
+use crate::commands::project::ProjectInfo;
 use crate::util::Rpc;
 use crate::CommandGlobalOpts;
 

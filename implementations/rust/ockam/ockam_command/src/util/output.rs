@@ -13,7 +13,7 @@ use ockam_api::nodes::models::secure_channel::{
 use ockam_api::route_to_multiaddr;
 use ockam_core::route;
 
-use crate::project::ProjectInfo;
+use crate::commands::project::ProjectInfo;
 use crate::util::comma_separated;
 
 /// Trait to control how a given type will be printed as a CLI output.

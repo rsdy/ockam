@@ -20,7 +20,7 @@ use tracing_subscriber::filter::LevelFilter;
 use tracing_subscriber::prelude::*;
 use tracing_subscriber::{fmt, EnvFilter};
 
-use crate::node::util::start_embedded_node;
+use crate::commands::node::util::start_embedded_node;
 use crate::util::output::Output;
 use crate::{CommandGlobalOpts, OutputFormat};
 
